@@ -19,6 +19,10 @@ module.exports = [{
         alias: {},
         extensions: [ '.ts', '.tsx', '.js', '.json' ]
     },
+    performance: {
+        maxEntrypointSize: 512000,
+        maxAssetSize: 512000,
+    },
     devServer: {
         compress: true,
         historyApiFallback: true,
