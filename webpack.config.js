@@ -1,6 +1,7 @@
 const path = require('path')
 const MODE = 'production'
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const { maxHeaderSize } = require('http')
 
 module.exports = [{
     mode: MODE,
@@ -18,6 +19,10 @@ module.exports = [{
     resolve: {
         alias: {},
         extensions: [ '.ts', '.tsx', '.js', '.json' ]
+    },
+    performance: {
+        maxEntrypointSize: 512000,
+        maxAssetSize: 512000,
     },
     devServer: {
         compress: true,
