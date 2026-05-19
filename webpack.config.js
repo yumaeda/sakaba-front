@@ -1,7 +1,6 @@
 const path = require('path')
 const MODE = 'production'
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const { maxHeaderSize } = require('http')
 
 module.exports = [{
     mode: MODE,
