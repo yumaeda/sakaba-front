@@ -3,7 +3,7 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["index.min.js", "index.css", "dist/**"]
+      "outputs": ["dist/**"]
     },
     "dev": {
       "cache": false,

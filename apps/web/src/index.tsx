@@ -1,6 +1,7 @@
 /**
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
+import '../scss/index.scss'
 import Root from './components/Root'
 import * as React from 'react'
 import { createRoot } from 'react-dom/client'

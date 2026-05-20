@@ -54,9 +54,9 @@ jobs:
       run: pnpm run build
     - name: Deploy to GCS
       run: |
-          gsutil cp apps/web/index.min.js gs://sakabas.com/
-          gsutil cp apps/web/index.html gs://sakabas.com/
-          gsutil cp apps/web/main.css gs://sakabas.com/
+          gsutil cp apps/web/dist/index.html gs://sakabas.com/
+          gsutil cp apps/web/dist/index.min.js gs://sakabas.com/
+          gsutil cp apps/web/dist/index.css gs://sakabas.com/
           gsutil cp robots.txt gs://sakabas.com/
           gsutil cp sitemap.xml gs://sakabas.com/
           gsutil cp favicon.ico gs://sakabas.com/

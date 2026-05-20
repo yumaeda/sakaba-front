@@ -4,7 +4,7 @@
 import * as React from 'react'
 import { Category, Menu } from '@yumaeda/sakaba-interface'
 import { v4 as uuidv4 } from 'uuid'
-import camelcaseKeys = require('camelcase-keys')
+import camelcaseKeys from 'camelcase-keys'
 import * as GlobalConstants from '../../../constants/Global'
 import CategoryDropDown from '../../CategoryDropDown'
 import { getCookie } from '../../../utils/CookieUtility'

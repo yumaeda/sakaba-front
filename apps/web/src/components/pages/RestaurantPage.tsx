@@ -3,7 +3,7 @@
  */
 import * as React from 'react'
 import { useParams } from 'react-router-dom'
-import camelcaseKeys = require('camelcase-keys')
+import camelcaseKeys from 'camelcase-keys'
 import { Category, Menu } from '@yumaeda/sakaba-interface'
 import { API_URL, IMG_URL } from '../../constants/Global'
 import MenuList from '../MenuList'

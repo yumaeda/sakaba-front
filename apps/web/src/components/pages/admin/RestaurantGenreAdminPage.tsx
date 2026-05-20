@@ -10,7 +10,7 @@ import Genre from '../../../interfaces/Genre'
 import { getCookie } from '../../../utils/CookieUtility'
 import Dropdown from '../../Dropdown'
 import RestaurantDropDown from '../../RestaurantDropdown'
-import camelcaseKeys = require('camelcase-keys')
+import camelcaseKeys from 'camelcase-keys'
  
 const RestaurantGenreAdminPage: React.FC = () => {
     const [token, setToken] = React.useState<string>('')
