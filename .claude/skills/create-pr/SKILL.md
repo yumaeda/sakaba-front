@@ -13,8 +13,8 @@ Use this skill to create a new Pull Request on GitHub from local changes.
 
 1. Change to the repository root directory
 2. Stage all changes: `git add .`
-3. Create a new branch: `git checkout -b <BRANCH_NAME>`
-4. Commit changes: `git commit -m "<PR_COMMENT>"`
+3. Commit changes on the current branch: `git commit -m "<PR_COMMENT>"`
+4. Create a new branch from the commit and switch to it: `git checkout -b <BRANCH_NAME>`
 5. Push and create upstream tracking: `git push origin -u HEAD`
 6. Open a PR via `gh pr create`
 
