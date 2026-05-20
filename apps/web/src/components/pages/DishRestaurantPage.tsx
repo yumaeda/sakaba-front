@@ -4,7 +4,7 @@
 import * as React from 'react'
 import { useParams } from 'react-router-dom'
 import { Restaurant } from '@yumaeda/sakaba-interface'
-import camelcaseKeys = require('camelcase-keys')
+import camelcaseKeys from 'camelcase-keys'
 import { API_URL } from '../../constants/Global'
 import { getLatitude, getLongitude } from '../../utils/GeoLocationUtility'
 import Dish from '../../interfaces/Dish'

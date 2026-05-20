@@ -81,7 +81,7 @@ const HomePage: React.FC<{}> = () => {
             }
         )
 
-        setShowAllRestaurants(localStorage.getItem('hideClosedRestaurants') != "1" ?? false)
+        setShowAllRestaurants(localStorage.getItem('hideClosedRestaurants') !== '1')
     }, [])
 
     if (error) {

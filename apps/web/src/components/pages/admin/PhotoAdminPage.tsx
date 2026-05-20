@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { Restaurant } from '@yumaeda/sakaba-interface'
 import RestaurantDropDown from '../../RestaurantDropdown'
-import camelcaseKeys = require('camelcase-keys')
+import camelcaseKeys from 'camelcase-keys'
 import { JWT_KEY } from '../../../constants/CookieKeys'
 import { API_URL } from '../../../constants/Global'
 import { getCookie } from '../../../utils/CookieUtility'
