@@ -1,0 +1,171 @@
+.body {
+    color: rgb(255, 255, 255);
+    background-color: black;
+    margin: 0;
+}
+
+.header {
+    background-color: black;
+    opacity: 0.8;
+    text-align: center;
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.header-label {
+    margin: 0;
+    font-size: 8.0vw;
+}
+
+.second-paragraph {
+    font-size: 3.0vw;
+    text-align: center;
+}
+
+.contents {
+    margin: 0;
+}
+
+.footer {
+    margin: 25px 30px;
+}
+
+.navigation-label {
+    font-size: 8.0vw;
+    text-align: center;
+    margin: 60px 0 0 0;
+    color: palegoldenrod;
+}
+
+.navigation-list {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    text-align: center;
+    padding: 0;
+}
+
+.navigation-item {
+    font-size: 5.0vw;
+    display: inline-block;
+    border: 1px dashed white;
+    padding: 20px 30px;
+}
+
+.shop-name-wrapper {
+    margin: 0;
+}
+
+.shop-name {
+    color: rgb(255, 255, 255);
+    font-size: 6vw;
+    text-decoration: none;
+}
+
+.shop-list {
+    list-style: none;
+    padding: 0;
+}
+
+.shop-video {
+    width: 869px;
+    height: 489px;
+    left: 0px;
+    top: 0px;
+}
+
+.shop-item {
+    border: solid 1px lightblue;
+    padding: 5px;
+    overflow-x: hidden;
+}
+
+.shop-item-grid {
+    display: inline-block;
+    padding: 5px;
+}
+
+.shop-info {
+    text-align: center;
+    padding: 20px;
+}
+
+.open-hour {
+    color: rgb(255, 255, 255);
+    margin: 10px 0 20px 0;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.distance {
+    color:lightsteelblue;
+    font-size: 25px;
+    padding: 0 10px;
+}
+
+.map-image {
+    height: 30px;
+}
+
+.tel-image {
+    height: 30px;
+    margin-left: 10px;
+}
+
+.back-image-container {
+    float: left;
+    padding: 10px 0 0 40px;
+}
+
+.back-image {
+    height: 30px;
+    filter: invert(1);
+}
+
+.dish-image-wrapper {
+    display: inline-block;
+    height: 85px;
+    width: 100px;
+    background-color: black;
+}
+
+.latest-image-wrapper {
+    display: inline-block;
+    width: 25vw;
+    height: 25vw;
+    text-align: center;
+}
+
+.tile-image {
+    height: 100%;
+    vertical-align: middle;
+    object-fit: cover;
+}
+
+.dish-image {
+    // This value has to match FixedSizeList.itemSize 
+    width: 100px;
+}
+
+.latest-image {
+    width: 100%;
+}
+
+.shop-genre {
+    font-size: 16px;
+    color: lightsalmon;
+}
+
+.list-item {
+    text-decoration: none;
+    color: white;
+}
+
+.ranking-list {
+    list-style: none;
+}
+
+.ranking-item {
+    padding: 10px;
+}
