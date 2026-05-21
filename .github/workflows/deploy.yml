@@ -22,10 +22,6 @@ jobs:
       uses: pnpm/action-setup@v4
       with:
         run_install: false
-    - name: Configure npm auth for private packages                                                                                                                                                 
-      run: echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc                                                                                                                      
-      env:                                                                                                                                                                                          
-        NODE_AUTH_TOKEN: ${{ secrets.DEV_OPS_TOKEN_READ_PACKAGES }} 
     - name: Get pnpm store directory
       shell: bash
       run: |
@@ -50,7 +46,7 @@ jobs:
       with:
         version: '>= 379.0.0'
     - name: Install dependencies
-      run: pnpm install
+      run: pnpm install --frozen-lockfile
       env:
           NODE_AUTH_TOKEN: ${{ secrets.DEV_OPS_TOKEN_READ_PACKAGES }}
     - name: Build
