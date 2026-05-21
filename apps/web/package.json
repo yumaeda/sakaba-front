@@ -11,22 +11,22 @@
         "@yumaeda/sakaba-interface": "1.2.0",
         "camelcase-keys": "^10.0.2",
         "jwt-decode": "^4.0.0",
-        "react": "^18.1.0",
-        "react-dom": "^18.1.0",
+        "react": "^19.2.6",
+        "react-dom": "^19.2.6",
         "react-router-dom": "^6.28.0",
-        "react-simple-image-viewer": "1.2.2",
-        "react-window": "^1.8.7",
+        "yet-another-react-lightbox": "^3.32.0",
+        "react-window": "^2.2.7",
         "uuid": "^7.0.3"
     },
     "devDependencies": {
-        "@types/react": "^18.0.12",
-        "@types/react-dom": "^18.0.5",
+        "@types/react": "^19.2.15",
+        "@types/react-dom": "^19.2.3",
         "@types/react-router-dom": "^5.3.3",
         "@types/react-window": "^1.8.5",
         "@types/uuid": "^8.3.0",
         "@vitejs/plugin-react": "^4.7.0",
         "sass": "^1.99.0",
-        "typescript": "^4.7.3",
+        "typescript": "^6.0.3",
         "vite": "^7.1.10"
     }
 }

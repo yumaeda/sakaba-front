@@ -2,7 +2,7 @@
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
 import * as React from 'react'
-import ImageViewer from 'react-simple-image-viewer'
+import Lightbox from 'yet-another-react-lightbox'
 import { Restaurant } from '@yumaeda/sakaba-interface'
 import { API_URL, IMG_URL } from '../constants/Global'
 import Video from '../interfaces/Video'
@@ -81,12 +81,11 @@ const RestaurantList: React.FC<Props> = (props) => {
             </li>
             )}) : <div>Loading...</div>}
             { isViewerOpen &&
-                <ImageViewer
-                    src={ imageUrls }
-                    currentIndex={ imageIndex }
-                    disableScroll={ false }
-                    closeOnClickOutside={ true }
-                    onClose={ closeImageViewer } />
+                <Lightbox
+                    slides={ imageUrls.map(url => ({ src: url })) }
+                    open={ isViewerOpen }
+                    index={ imageIndex }
+                    close={ closeImageViewer } />
             }
         </ul>
     )

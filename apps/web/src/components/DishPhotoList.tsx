@@ -2,9 +2,17 @@
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
 import * as React from 'react'
-import { FixedSizeList } from 'react-window'
+import * as ReactWindow from 'react-window'
 import Photo from '../interfaces/Photo'
 import { API_URL } from '../constants/Global'
+
+const FixedSizeList = ((ReactWindow as any).FixedSizeList ?? (ReactWindow as any).List) as React.ComponentType<any>
+
+interface ListChildComponentProps<T> {
+    index: number
+    style: React.CSSProperties
+    data: T
+}
 
 interface Props {
     basePath: string
@@ -80,7 +88,9 @@ const DishPhotoList: React.FC<Props> = (props) => {
             layout="horizontal"
             width={window.innerWidth}
             itemData={{ openImageViewer, photos, restaurantId, basePath }}>
-            {DishPhoto}
+            {({ index, style, data }: ListChildComponentProps<ColumnProps>) => (
+                <DishPhoto index={index} style={style} data={data} />
+            )}
         </FixedSizeList>
     )
 }
