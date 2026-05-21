@@ -55,8 +55,8 @@ jobs:
     - name: Deploy to GCS
       run: |
           gsutil cp apps/web/index.html gs://sakabas.com/
-          gsutil cp apps/web/src/index.tsx gs://sakabas.com/
-          gsutil cp apps/web/dist/index.css gs://sakabas.com/
+          gsutil cp apps/web/dist/index.min.js gs://sakabas.com/dist/index.min.js
+          gsutil cp apps/web/dist/index.css gs://sakabas.com/dist/index.css
           gsutil cp robots.txt gs://sakabas.com/
           gsutil cp sitemap.xml gs://sakabas.com/
           gsutil cp favicon.ico gs://sakabas.com/
