@@ -1,10 +1,4 @@
 {
-  "pnpm": {
-    "overrides": {
-      "node-forge": "1.4.0",
-      "@babel/runtime": "7.26.10"
-    }
-  },
   "name": "sakaba-front",
   "version": "1.0.3",
   "private": true,
@@ -19,5 +13,5 @@
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "pnpm@9.0.0"
+  "packageManager": "pnpm@11.0.0"
 }
