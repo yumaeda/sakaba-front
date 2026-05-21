@@ -46,3 +46,18 @@ jobs:
       uses: 'google-github-actions/setup-gcloud@v3'
       with:
         version: '>= 379.0.0'
+    - name: Install dependencies
+      run: pnpm install
+      env:
+          NODE_AUTH_TOKEN: ${{ secrets.DEV_OPS_TOKEN_READ_PACKAGES }}
+    - name: Build
+      run: pnpm run build
+    - name: Deploy to GCS
+      run: |
+          gsutil cp apps/web/index.html gs://sakabas.com/
+          gsutil cp apps/web/dist/index.min.js gs://sakabas.com/dist/index.min.js
+          gsutil cp apps/web/dist/index.css gs://sakabas.com/dist/index.css
+          gsutil cp robots.txt gs://sakabas.com/
+          gsutil cp sitemap.xml gs://sakabas.com/
+          gsutil cp favicon.ico gs://sakabas.com/
+          gsutil setmeta -r -h "Cache-Control: no-store, max-age=864000" gs://sakabas.com
