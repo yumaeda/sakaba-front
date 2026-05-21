@@ -8,15 +8,15 @@
         "lint": "echo 'No linting configured'"
     },
     "dependencies": {
-        "@yumaeda/sakaba-interface": "1.2.0",
+        "@yumaeda/sakaba-interface": "^1.2.0",
         "camelcase-keys": "^10.0.2",
         "jwt-decode": "^4.0.0",
         "react": "^19.2.6",
         "react-dom": "^19.2.6",
         "react-router-dom": "^6.28.0",
-        "yet-another-react-lightbox": "^3.32.0",
         "react-window": "^2.2.7",
-        "uuid": "^7.0.3"
+        "uuid": "^7.0.3",
+        "yet-another-react-lightbox": "^3.32.0"
     },
     "devDependencies": {
         "@types/react": "^19.2.15",

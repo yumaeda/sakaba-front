@@ -15,7 +15,7 @@ importers:
   apps/web:
     dependencies:
       '@yumaeda/sakaba-interface':
-        specifier: 1.2.0
+        specifier: ^1.2.0
         version: 1.2.0
       camelcase-keys:
         specifier: ^10.0.2
