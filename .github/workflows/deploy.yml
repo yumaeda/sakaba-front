@@ -60,4 +60,4 @@ jobs:
           gsutil cp robots.txt gs://sakabas.com/
           gsutil cp sitemap.xml gs://sakabas.com/
           gsutil cp favicon.ico gs://sakabas.com/
-          gsutil setmeta -r -h "Cache-Control: no-cache, max-age=864000" gs://sakabas.com
+          gsutil setmeta -r -h "Cache-Control: no-store, max-age=864000" gs://sakabas.com
