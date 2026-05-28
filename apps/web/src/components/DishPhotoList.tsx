@@ -2,13 +2,13 @@
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
 import React from 'react'
-import { List } from 'react-window'
+import { Grid, type CellComponentProps } from 'react-window'
 import Photo from '../interfaces/Photo'
 import { API_URL } from '../constants/Global'
 
-const PhotoColumn = ({ index, style, openImageViewer, photos = [], restaurantId, basePath }: any) => (
+const CellComponent = ({ columnIndex, style, openImageViewer, photos = [], restaurantId, basePath }: CellComponentProps<ColumnProps>) => (
   <DishPhoto 
-    index={index} 
+    index={columnIndex} 
     style={style} 
     data={{ openImageViewer, photos, restaurantId, basePath }}
   />
@@ -65,14 +65,12 @@ const DishPhotoList: React.FC<Props> = (props) => {
         setIsViewerOpen(true)
     }
 
-    const dynamicColumnProps = {
+    const dynamicCellProps = {
         openImageViewer,
         photos: photos || [],
         restaurantId: restaurantId || '',
         basePath: basePath || ''
     }
-
-    const VirtualList = List as any
 
     React.useEffect(() => {
         fetch(`${API_URL}/photos/${restaurantId}`, {
@@ -90,14 +88,14 @@ const DishPhotoList: React.FC<Props> = (props) => {
     }, [])
 
     return (
-        <VirtualList
-            width={window.innerWidth}
-            height={85}
+        <Grid
+            className="h-full"
+            cellComponent={CellComponent}
+            cellProps={dynamicCellProps}
             columnCount={photos ? photos.length : 0}
             columnWidth={100}
-            columnProps={dynamicColumnProps}
-            columnComponent={PhotoColumn}
-            style={{ overflowX: 'auto', overflowY: 'hidden' }}
+            rowCount={1}
+            rowHeight={'100%'}
         />
     )
 }
