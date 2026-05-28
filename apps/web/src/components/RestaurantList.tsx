@@ -50,7 +50,7 @@ const RestaurantList: React.FC<Props> = (props) => {
 
     return (
         <ul className="shop-list">
-        {/*restaurants ? restaurants
+        {restaurants ? restaurants
             .filter((restaurant: Restaurant) => (showAllRestaurants || (restaurant.isOpen == 1 && Number(restaurant.distance) < 5)))
             .map((openRestaurant: Restaurant) => {
             const restaurantId = openRestaurant.id
@@ -86,7 +86,7 @@ const RestaurantList: React.FC<Props> = (props) => {
                     open={ isViewerOpen }
                     index={ imageIndex }
                     close={ closeImageViewer } />
-            */}
+            }
         </ul>
     )
 }
