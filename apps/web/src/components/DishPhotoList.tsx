@@ -2,18 +2,11 @@
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
 import React from 'react'
-import { List, RowComponentProps } from 'react-window'
+import { List } from 'react-window'
 import Photo from '../interfaces/Photo'
 import { API_URL } from '../constants/Global'
 
-interface CustomRowData {
-    openImageViewer: (index: number) => void
-    photos: Photo[] | null
-    restaurantId: string
-    basePath: string
-}
-
-const PhotoColumn = ({ index, style, openImageViewer, photos, restaurantId, basePath }: RowComponentProps<CustomRowData>) => (
+const PhotoColumn = ({ index, style, openImageViewer, photos = [], restaurantId, basePath }: any) => (
   <DishPhoto 
     index={index} 
     style={style} 
@@ -33,7 +26,7 @@ interface ColumnProps {
     openImageViewer: (index: number) => void
     basePath: string
     restaurantId: string
-    photos: Photo[] | null
+    photos: Photo[]
 }
 
 interface ColumnStyle {
@@ -72,7 +65,12 @@ const DishPhotoList: React.FC<Props> = (props) => {
         setIsViewerOpen(true)
     }
 
-    const dynamicColumnProps = photos ? { openImageViewer, photos, restaurantId, basePath } : {}
+    const dynamicColumnProps = {
+        openImageViewer,
+        photos: photos || [],
+        restaurantId,
+        basePath
+    }
 
     const VirtualList = List as any
 
