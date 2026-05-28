@@ -87,15 +87,18 @@ const DishPhotoList: React.FC<Props> = (props) => {
         )
     }, [])
 
+    const VirtualGrid = Grid as any
+
     return (
-        <Grid
-            className="h-full"
+        <VirtualGrid
+            width={window.innerWidth}
+            height={85}
             cellComponent={CellComponent}
             cellProps={dynamicCellProps}
             columnCount={photos ? photos.length : 0}
             columnWidth={100}
             rowCount={1}
-            rowHeight={'100%'}
+            rowHeight={85}
         />
     )
 }
