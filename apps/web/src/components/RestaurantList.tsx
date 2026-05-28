@@ -50,7 +50,7 @@ const RestaurantList: React.FC<Props> = (props) => {
 
     return (
         <ul className="shop-list">
-        {restaurants ? restaurants
+        {/*restaurants ? restaurants
             .filter((restaurant: Restaurant) => (showAllRestaurants || (restaurant.isOpen == 1 && Number(restaurant.distance) < 5)))
             .map((openRestaurant: Restaurant) => {
             const restaurantId = openRestaurant.id
@@ -62,14 +62,13 @@ const RestaurantList: React.FC<Props> = (props) => {
                         <RestaurantPageLink id={restaurantId} area={openRestaurant.area} url={openRestaurant.url} name={openRestaurant.name} />
                     </h4>
                 </div>
-                {/*
                 <DishPhotoList
                     basePath={IMG_URL}
                     restaurantId={restaurantId}
                     setImageUrls={setImageUrls}
                     setImageIndex={setImageIndex}
                     setIsViewerOpen={setIsViewerOpen}
-                />*/}
+                />
                 <div className="shop-info">
                     <OpenHours businessDayJson={openRestaurant.businessDayInfo} />
                     <span className="distance">{ `${Number(openRestaurant.distance).toFixed(2)} km` }</span>
@@ -87,7 +86,7 @@ const RestaurantList: React.FC<Props> = (props) => {
                     open={ isViewerOpen }
                     index={ imageIndex }
                     close={ closeImageViewer } />
-            }
+            */}
         </ul>
     )
 }
