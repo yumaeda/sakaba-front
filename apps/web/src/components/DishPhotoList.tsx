@@ -93,10 +93,9 @@ const DishPhotoList: React.FC<Props> = (props) => {
 
     return (
         <VirtualList
-            layout="horizontal"
             width={window.innerWidth}
             height={85}
-            rowCount={photos ? photos.length : 0}
+            columnCount={photos ? photos.length : 0}
             rowHeight={85}
             columnWidth={100}
             rowProps={dynamicRowProps}
