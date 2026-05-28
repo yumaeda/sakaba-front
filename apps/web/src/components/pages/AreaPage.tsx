@@ -49,7 +49,9 @@ const AreaPage: React.FC = () => {
                     <p className="header-label">{area}</p>
                 </header>
                 <div className="contents">
+                    {/*
                     <RestaurantList restaurants={restaurants} />
+                    */}
                 </div> 
                 <Footer />
             </>
