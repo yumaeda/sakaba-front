@@ -41,7 +41,7 @@ const DishPhoto: React.FC<ColumnStyle> = (props) => {
     const photo = (data.photos && data.photos.length > index) ? data.photos[index] : null
 
     return photo ? (
-        <div style={style} key={index}>
+        <div style={{ ...style, display: 'inline-block' }} key={index}>
             <div className="dish-image-wrapper" onClick={ () => { data.openImageViewer(index) }}>
                 <picture>
                     <source type="image/webp" media="(min-width: 150px)" srcSet={`${restaurantImageDir}/${photo.thumbnail_webp}`} />
@@ -49,7 +49,7 @@ const DishPhoto: React.FC<ColumnStyle> = (props) => {
                 </picture>
             </div>
         </div>
-    ) : <div></div> 
+    ) : <div style={style}></div> 
 }
 
 const DishPhotoList: React.FC<Props> = (props) => {
@@ -68,8 +68,8 @@ const DishPhotoList: React.FC<Props> = (props) => {
     const dynamicColumnProps = {
         openImageViewer,
         photos: photos || [],
-        restaurantId,
-        basePath
+        restaurantId: restaurantId || '',
+        basePath: basePath || ''
     }
 
     const VirtualList = List as any
@@ -97,6 +97,7 @@ const DishPhotoList: React.FC<Props> = (props) => {
             columnWidth={100}
             columnProps={dynamicColumnProps}
             columnComponent={PhotoColumn}
+            style={{ overflowX: 'auto', overflowY: 'hidden' }}
         />
     )
 }
