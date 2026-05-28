@@ -72,6 +72,8 @@ const DishPhotoList: React.FC<Props> = (props) => {
         setIsViewerOpen(true)
     }
 
+    const dynamicRowProps = photos ? { openImageViewer, photos, restaurantId, basePath } : {}
+
     const VirtualList = List as any
 
     React.useEffect(() => {
@@ -96,7 +98,7 @@ const DishPhotoList: React.FC<Props> = (props) => {
             height={85}
             rowCount={photos ? photos.length : 0}
             rowHeight={100}
-            rowProps={{ openImageViewer, photos, restaurantId, basePath }}
+            rowProps={dynamicRowProps}
             rowComponent={PhotoColumn}
         />
     )
