@@ -97,7 +97,8 @@ const DishPhotoList: React.FC<Props> = (props) => {
             width={window.innerWidth}
             height={85}
             rowCount={photos ? photos.length : 0}
-            rowHeight={100}
+            rowHeight={85}
+            columnWidth={100}
             rowProps={dynamicRowProps}
             rowComponent={PhotoColumn}
         />
