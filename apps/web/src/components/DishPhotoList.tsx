@@ -91,8 +91,7 @@ const DishPhotoList: React.FC<Props> = (props) => {
         )
     }, [])
 
-    return (<div>VirtualList</div>)
-    /*return (
+    return (
         <VirtualList
             layout="horizontal"
             width={window.innerWidth}
@@ -102,7 +101,7 @@ const DishPhotoList: React.FC<Props> = (props) => {
             rowProps={dynamicRowProps}
             rowComponent={PhotoColumn}
         />
-    )*/
+    )
 }
 
 export default DishPhotoList
