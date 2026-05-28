@@ -1,18 +1,25 @@
 /**
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
-import * as React from 'react'
-import * as ReactWindow from 'react-window'
+import React from 'react'
+import { List, RowComponentProps } from 'react-window'
 import Photo from '../interfaces/Photo'
 import { API_URL } from '../constants/Global'
 
-const FixedSizeList = ((ReactWindow as any).FixedSizeList ?? (ReactWindow as any).List) as React.ComponentType<any>
-
-interface ListChildComponentProps<T> {
-    index: number
-    style: React.CSSProperties
-    data: T
+interface CustomRowData {
+    openImageViewer: (index: number) => void
+    photos: Photo[] | null
+    restaurantId: string
+    basePath: string
 }
+
+const PhotoColumn = ({ index, style, openImageViewer, photos, restaurantId, basePath }: RowComponentProps<CustomRowData>) => (
+  <DishPhoto 
+    index={index} 
+    style={style} 
+    data={{ openImageViewer, photos, restaurantId, basePath }}
+  />
+)
 
 interface Props {
     basePath: string
@@ -65,6 +72,8 @@ const DishPhotoList: React.FC<Props> = (props) => {
         setIsViewerOpen(true)
     }
 
+    const VirtualList = List as any
+
     React.useEffect(() => {
         fetch(`${API_URL}/photos/${restaurantId}`, {
             headers: {}
@@ -81,17 +90,15 @@ const DishPhotoList: React.FC<Props> = (props) => {
     }, [])
 
     return (
-        <FixedSizeList
-            height={85}
-            itemCount={photos ? photos.length : 0}
-            itemSize={100}
+        <VirtualList
             layout="horizontal"
             width={window.innerWidth}
-            itemData={{ openImageViewer, photos, restaurantId, basePath }}>
-            {({ index, style, data }: ListChildComponentProps<ColumnProps>) => (
-                <DishPhoto index={index} style={style} data={data} />
-            )}
-        </FixedSizeList>
+            height={85}
+            rowCount={photos ? photos.length : 0}
+            rowHeight={100}
+            rowProps={{ openImageViewer, photos, restaurantId, basePath }}
+            rowComponent={PhotoColumn}
+        />
     )
 }
 
