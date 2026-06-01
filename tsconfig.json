@@ -1,14 +1,17 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "jsx": "react",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "strict": true,
-    "skipLibCheck": true
-  },
-  "references": [
-    { "path": "apps/web" }
-  ]
+     "compilerOptions": {
+         "target": "es5",
+         "jsx": "preserve",
+         "module": "commonjs",
+         "moduleResolution": "node",
+         "esModuleInterop": true,
+         "strict": true,
+         "skipLibCheck": true,
+         "paths": {
+             "@/*": ["apps/web/src/*"]
+          }
+       },
+     "references": [
+         { "path": "apps/web" }
+       ]
 }
