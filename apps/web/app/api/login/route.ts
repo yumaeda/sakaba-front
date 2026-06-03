@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { API_URL } from '../../../../constants/Global'
+import { API_URL } from '@/constants/Global'
 
 export async function POST(request: Request) {
   try {

@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
-import { API_URL, IMG_URL, WEB_URL } from '../../constants/Global'
-import Footer from '../../components/Footer'
+import { API_URL, IMG_URL, WEB_URL } from '@/constants/Global'
+import Footer from '@/components/Footer'
 
 interface Ranking {
   dish: string

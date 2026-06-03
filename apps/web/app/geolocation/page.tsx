@@ -1,10 +1,10 @@
 'use client'
 
-import { IMG_URL, WEB_URL } from '../constants/Global'
-import { LATITUDE_KEY, LONGITUDE_KEY } from '../constants/LocalStorageKeys'
-import { getCurrentPosition, handleGeolocationError } from '../utils/GeoLocationUtility'
+import { IMG_URL, WEB_URL } from '@/constants/Global'
+import { LATITUDE_KEY, LONGITUDE_KEY } from '@/constants/LocalStorageKeys'
+import { getCurrentPosition, handleGeolocationError } from '@/utils/GeoLocationUtility'
 import { useEffect } from 'react'
-import Footer from '../components/Footer'
+import Footer from '@/components/Footer'
 
 const GeolocationPage: React.FC = () => {
   const title = 'Geolocation'

@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Restaurant } from '@yumaeda/sakaba-interface'
 import camelcaseKeys from 'camelcase-keys'
-import { API_URL } from '../../../constants/Global'
-import { getCookie } from '../../../utils/CookieUtility'
-import { JWT_KEY } from '../../../constants/CookieKeys'
-import RestaurantDropDown from '../../../components/RestaurantDropdown'
+import { API_URL } from '@/constants/Global'
+import { getCookie } from '@/utils/CookieUtility'
+import { JWT_KEY } from '@/constants/CookieKeys'
+import RestaurantDropDown from '@/components/RestaurantDropdown'
 
 const PhotoAdminPage: React.FC = () => {
   const [token, setToken] = useState<string>('')

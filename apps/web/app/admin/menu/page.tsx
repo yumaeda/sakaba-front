@@ -4,11 +4,10 @@ import { useState, useEffect } from 'react'
 import { Category, Menu } from '@yumaeda/sakaba-interface'
 import { v4 as uuidv4 } from 'uuid'
 import camelcaseKeys from 'camelcase-keys'
-import { API_URL } from '../../../constants/Global'
-import { getCookie } from '../../../utils/CookieUtility'
-import { JWT_KEY } from '../../../constants/CookieKeys'
-import { USER_NAME_KEY } from '../../../constants/LocalStorageKeys'
-import CategoryDropDown from '../../../components/CategoryDropDown'
+import { API_URL } from '@/constants/Global'
+import { getCookie } from '@/utils/CookieUtility'
+import { JWT_KEY } from '@/constants/CookieKeys'
+import CategoryDropDown from '@/components/CategoryDropDown'
 
 const MenuAdminPage: React.FC = () => {
   const [token, setToken] = useState<string>('')

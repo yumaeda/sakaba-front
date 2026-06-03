@@ -1,13 +1,13 @@
 import Link from 'next/link'
-import { API_URL, IMG_URL } from '../constants/Global'
-import Dish from '../interfaces/Dish'
-import Drink from '../interfaces/Drink'
-import Genre from '../interfaces/Genre'
-import Photo from '../interfaces/Photo'
-import RestaurantInfo from '../interfaces/RestaurantInfo'
-import { getLatitude, getLongitude } from '../utils/GeoLocationUtility'
-import Footer from '../components/Footer'
-import LatestPhotoList from '../components/LatestPhotoList'
+import { API_URL, IMG_URL } from '@/constants/Global'
+import Dish from '@/interfaces/Dish'
+import Drink from '@/interfaces/Drink'
+import Genre from '@/interfaces/Genre'
+import Photo from '@/interfaces/Photo'
+import RestaurantInfo from '@/interfaces/RestaurantInfo'
+import { getLatitude, getLongitude } from '@/utils/GeoLocationUtility'
+import Footer from '@/components/Footer'
+import LatestPhotoList from '@/components/LatestPhotoList'
 
 export default async function HomePage() {
   const latitude = getLatitude()

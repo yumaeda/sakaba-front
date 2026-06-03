@@ -1,12 +1,11 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { getCookie } from '../../../utils/CookieUtility'
-import { JWT_KEY } from '../../../constants/CookieKeys'
+import { getCookie } from '@/utils/CookieUtility'
+import { JWT_KEY } from '@/constants/CookieKeys'
 import { jwtDecode } from 'jwt-decode'
-import JwtPayload from '../../../interfaces/JwtPayload'
-import { getLatitude, getLongitude } from '../../../utils/GeoLocationUtility'
-import { API_URL } from '../../../constants/Global'
-import Restaurant from '@yumaeda/sakaba-interface'
+import JwtPayload from '@/interfaces/JwtPayload'
+import { API_URL } from '@/constants/Global'
+
 import camelcaseKeys from 'camelcase-keys'
 
 export default async function HomeAdminPage() {
@@ -16,8 +15,9 @@ export default async function HomeAdminPage() {
     redirect('/signin')
    }
 
+  let decoded: JwtPayload
   try {
-    const decoded: JwtPayload = jwtDecode(token)
+    decoded = jwtDecode(token)
     const currentTime = Math.floor(Date.now() / 1000)
 
     if (!decoded.exp || decoded.exp < currentTime) {
@@ -28,10 +28,8 @@ export default async function HomeAdminPage() {
     }
 
   const userId = (decoded.id.split('@')[0] || '') as string
-  const latitude = getLatitude()
-  const longitude = getLongitude()
 
-  let restaurants: Restaurant[] = []
+  let restaurants = []
 
   if (userId === 'yumaeda') {
     try {
@@ -55,7 +53,7 @@ export default async function HomeAdminPage() {
              <>
                <h3>レストラン一覧</h3>
                <ul>
-                 {restaurants.map((restaurant: Restaurant) => (
+                 {restaurants.map((restaurant: { id: string; name: string; }) => (
                    <li key={restaurant.id}>{restaurant.name}</li>
                    ))}
                </ul>

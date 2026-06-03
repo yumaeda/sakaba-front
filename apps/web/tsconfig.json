@@ -1,34 +1,46 @@
 {
-     "extends": "../../tsconfig.json",
-     "compilerOptions": {
-         "allowJs": true,
-         "allowUnreachableCode": false,
-         "allowUnusedLabels": false,
-         "outDir": "./dist/",
-         "sourceMap": true,
-         "strictNullChecks": true,
-         "noImplicitAny": true,
-         "noImplicitThis": true,
-         "noImplicitReturns": true,
-         "noUnusedLocals": true,
-         "noUnusedParameters": true,
-         "lib": ["es6", "dom"],
-         "rootDir": ".",
-         "target": "es5",
-         "jsx": "preserve",
-         "plugins": [{ "name": "next" }],
-         "paths": {
-             "@/*": ["./src/*"]
-         }
-      },
-     "exclude": [
-         "node_modules",
-         "dist"
-      ],
-     "include": [
-         "./src/**/*",
-         ".next/types/**/*.ts",
-         "**/*.ts",
-         "**/*.tsx"
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "rootDir": ".",
+    "target": "es5",
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./*"
       ]
+    },
+    "noEmit": true,
+    "incremental": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "include": [
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }
