@@ -1,6 +1,7 @@
 /**
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
+
 import React from 'react'
 import { Grid, type CellComponentProps } from 'react-window'
 import Photo from '@/interfaces/Photo'

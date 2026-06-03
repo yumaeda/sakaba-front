@@ -5,12 +5,14 @@ import Drink from '@/interfaces/Drink'
 import Genre from '@/interfaces/Genre'
 import Photo from '@/interfaces/Photo'
 import RestaurantInfo from '@/interfaces/RestaurantInfo'
-import { getLatitude, getLongitude } from '@/utils/GeoLocationUtility'
 import LatestPhotoList from '@/components/LatestPhotoList'
 
+const DEFAULT_LATITUDE = '35.761921'
+const DEFAULT_LONGITUDE = '139.7054278'
+
 export default async function HomePage() {
-  const latitude = getLatitude()
-  const longitude = getLongitude()
+  const latitude = DEFAULT_LATITUDE
+  const longitude = DEFAULT_LONGITUDE
 
   let dishes: Dish[] = []
   let drinks: Drink[] = []
@@ -20,11 +22,10 @@ export default async function HomePage() {
   let error: Error | undefined
 
   try {
-    const countsRes = await fetch(`${API_URL}/restaurant-counts/${latitude}/${longitude}`, {
-      headers: {},
-    })
+    const countsRes = await fetch(`${API_URL}/restaurant-counts/${latitude}/${longitude}`, { headers: {}, })
     const countsData = await countsRes.json()
     restaurantInfos = JSON.parse(JSON.stringify(countsData.body))
+    console.dir(restaurantInfos)
   } catch (e) {
     error = e as Error
   }
@@ -65,62 +66,59 @@ export default async function HomePage() {
     return <div>Error: {error.message}</div>
   }
 
-  const showAllRestaurants = localStorage.getItem('hideClosedRestaurants') !== '1'
-
   return (
     <>
       <header className="header">
         <p className="header-label">酒場 s</p>
         <Link className="list-item" href="/geolocation">現在地を更新</Link>
-       </header>
-       <div className="contents">
-         <LatestPhotoList basePath={IMG_URL} photos={photos} />
-         <h4 className="navigation-label">Area</h4>
-         <ul className="navigation-list">
-           {restaurantInfos
-             .filter((restaurantInfo: RestaurantInfo) => showAllRestaurants || restaurantInfo.count > 0)
-             .map((info: RestaurantInfo) => (
-               <li className="navigation-item">
-                 <span>
-                   <Link className="list-item" href={`/${info.area}/`}>{info.name}</Link>
-                 </span>
-               </li>
-             ))}
-         </ul>
-         <h4 className="navigation-label">Drink</h4>
-         <ul className="navigation-list">
-           {drinks.map((drink: Drink) => (
-             <li className="navigation-item">
-               <span>
-                 <Link className="list-item" href={`/drinks/${drink.id}/`}>{drink.name}</Link>
-               </span>
-             </li>
-           ))}
-         </ul>
-         <h4 className="navigation-label">Genre</h4>
-         <ul className="navigation-list">
-           {genres.map((genre: Genre) => (
-             <li className="navigation-item">
-               <span>
-                 <Link className="list-item" href={`/genres/${genre.id}/`}>{genre.name}</Link>
-               </span>
-             </li>
-           ))}
-         </ul>
-         <h4 className="navigation-label">Dish</h4>
-         <ul className="navigation-list">
-           {dishes.map((dish: Dish) => (
-             <li className="navigation-item">
-               <span>
-                 <Link className="list-item" href={`/dishes/${dish.id}/`}>{dish.name}</Link>
-               </span>
-             </li>
-           ))}
-         </ul>
-         <p className="second-paragraph">
-           <Link className="list-item" href="/ranking">フードランキング</Link>
-         </p>
-       </div>
-     </>
-   )
+      </header>
+      <div className="contents">
+        <LatestPhotoList basePath={IMG_URL} photos={photos} />
+        <h4 className="navigation-label">Area</h4>
+        <ul className="navigation-list">
+          {restaurantInfos
+            .map((info: RestaurantInfo) => (
+              <li className="navigation-item">
+                <span>
+                  <Link className="list-item" href={`/${info.area}/`}>{info.name}</Link>
+                </span>
+              </li>
+            ))}
+        </ul>
+        <h4 className="navigation-label">Drink</h4>
+        <ul className="navigation-list">
+          {drinks.map((drink: Drink) => (
+            <li className="navigation-item">
+              <span>
+                <Link className="list-item" href={`/drinks/${drink.id}/`}>{drink.name}</Link>
+              </span>
+            </li>
+          ))}
+        </ul>
+        <h4 className="navigation-label">Genre</h4>
+        <ul className="navigation-list">
+          {genres.map((genre: Genre) => (
+            <li className="navigation-item">
+              <span>
+                <Link className="list-item" href={`/genres/${genre.id}/`}>{genre.name}</Link>
+              </span>
+            </li>
+          ))}
+        </ul>
+        <h4 className="navigation-label">Dish</h4>
+        <ul className="navigation-list">
+          {dishes.map((dish: Dish) => (
+            <li className="navigation-item">
+              <span>
+                <Link className="list-item" href={`/dishes/${dish.id}/`}>{dish.name}</Link>
+              </span>
+            </li>
+          ))}
+        </ul>
+        <p className="second-paragraph">
+          <Link className="list-item" href="/ranking">フードランキング</Link>
+        </p>
+      </div>
+    </>
+  )
 }
