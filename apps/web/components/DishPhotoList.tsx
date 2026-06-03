@@ -3,8 +3,8 @@
  */
 import React from 'react'
 import { Grid, type CellComponentProps } from 'react-window'
-import Photo from 'interfaces/Photo'
-import { API_URL } from 'constants/Global'
+import Photo from '@/interfaces/Photo'
+import { API_URL } from '@/constants/Global'
 
 const CellComponent = ({ columnIndex, style, openImageViewer, photos = [], restaurantId, basePath }: CellComponentProps<ColumnProps>) => (
   <DishPhoto 

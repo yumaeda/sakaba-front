@@ -2,7 +2,7 @@
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
 import * as React from 'react'
-import { WEB_URL } from 'constants/Global'
+import { WEB_URL } from '@/constants/Global'
 
 interface Props {
     id: string

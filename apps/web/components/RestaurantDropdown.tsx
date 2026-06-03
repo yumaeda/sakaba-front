@@ -10,7 +10,7 @@ interface Props {
     onSelect: React.ChangeEventHandler<HTMLSelectElement>
 }
 
-const RestaurantDropDown: React.VFC<Props> = props => {
+const RestaurantDropDown: React.FC<Props> = props => {
     const { restaurantId, restaurants, onSelect} = props
     if (restaurants.length === 0) {
         return <></>

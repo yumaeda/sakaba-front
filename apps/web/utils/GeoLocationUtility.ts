@@ -1,4 +1,4 @@
-import { LATITUDE_KEY, LONGITUDE_KEY } from "constants/LocalStorageKeys"
+import { LATITUDE_KEY, LONGITUDE_KEY } from "@/constants/LocalStorageKeys"
 
 const DEFAULT_LATITUDE = '35.761921'
 const DEFAULT_LONGITUDE = '139.7054278'

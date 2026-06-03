@@ -2,7 +2,7 @@
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
 import * as React from 'react'
-import * as GlobalConstants from 'constants/Global'
+import * as GlobalConstants from '@/constants/Global'
 
 const Footer: React.FC = () => {
     return (

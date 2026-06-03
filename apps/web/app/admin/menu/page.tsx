@@ -49,16 +49,16 @@ const MenuAdminPage: React.FC = () => {
   const handleAddMenu = () => {
     const emptyMenu: Menu = {
       id: uuidv4(),
-      restaurant_id: restaurantId,
-      sort_order: 0,
+      restaurantId,
+      sortOrder: 0,
       category: 0,
-      sub_category: 0,
+      subCategory: 0,
       region: 0,
       name: '',
-      name_jpn: '',
+      nameJpn: '',
       price: 0,
-      is_min_price: 0,
-      is_hidden: 0,
+      isMinPrice: 0,
+      isHidden: 0,
        }
 
     const postOptions: RequestInit = {

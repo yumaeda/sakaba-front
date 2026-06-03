@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { API_URL } from '@/constants/Global'
 
 export async function GET(request: NextRequest) {

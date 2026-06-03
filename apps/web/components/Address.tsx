@@ -2,7 +2,7 @@
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
 import * as React from 'react'
-import { IMG_URL } from 'constants/Global'
+import { IMG_URL } from '@/constants/Global'
 
 interface Props {
     text: string

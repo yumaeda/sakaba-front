@@ -2,7 +2,7 @@
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
 import * as React from 'react'
-import Photo from 'interfaces/Photo'
+import Photo from '@/interfaces/Photo'
 
 interface Props {
     basePath: string

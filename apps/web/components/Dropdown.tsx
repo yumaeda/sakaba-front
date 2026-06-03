@@ -2,7 +2,7 @@
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
 import * as React from 'react'
-import Item from 'interfaces/Item'
+import Item from '@/interfaces/Item'
 
 interface Props {
     items: Item[]
