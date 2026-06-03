@@ -4,37 +4,52 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Sakaba Link (酒場s)** is a React frontend for a Tokyo restaurant takeout platform. The app lets users browse restaurants by area, dish type, drink category, or genre, and provides an admin dashboard for restaurant management.
+**Sakaba Link (酒場 s)** is a Next.js 14 frontend for a Tokyo restaurant takeout platform. The app lets users browse restaurants by area, dish type, drink category, or genre, and provides an admin dashboard for restaurant management.
 
 ## Monorepo Structure
 
 ```
-├── apps/web/              # Single app — the restaurant browsing site
-│   ├── src/
-│   │   ├── components/    # React components
-│   │   │   ├── pages/     # Page components (HomePage, RestaurantPage, etc.)
-│   │   │   │   └── admin/ # Admin dashboard pages
-│   │   │   └── ...        # Shared UI components
-│   │   ├── constants/     # API_URL, IMG_URL, cookie/localstorage keys
-│   │   ├── interfaces/    # TypeScript type definitions
-│   │   └── utils/         # HTTP, cookie, geolocation helpers
-│   ├── scss/              # SCSS source files
-│   ├── webpack.config.js  # Dual entry: TSX + SCSS
-│   └── package.json
-├── packages/              # (empty — reserved for shared packages)
-├── turbo.json             # Turborepo configuration
-├── pnpm-workspace.yaml    # Workspace definition
-└── package.json           # Root workspace manifest
+├── apps/
+│    └── web/                    # Next.js 14 restaurant browsing site
+│         ├── app/               # App Router (file-based routing)
+│         │    ├── (layout)/     # Root layout wrapper
+│         │    ├── admin/        # Admin dashboard routes
+│         │    ├── area/         # Area listing pages
+│         │    ├── dishes/       # Dish listing pages
+│         │    ├── drinks/       # Drink listing pages
+│         │    ├── genres/       # Genre listing pages
+│         │    ├── geolocation/  # Geolocation page
+│         │    ├── member/       # Member pages
+│         │    ├── ranking/      # Ranking pages
+│         │    ├── restaurant/   # Restaurant detail pages
+│         │    ├── signin/       # Sign-in pages
+│         │    ├── layout.tsx    # Root layout
+│         │    └── page.tsx      # Home page
+│         ├── components/        # Legacy React components
+│         │    ├── pages/       # Old page components (React Router)
+│         │    │    └── admin/  # Legacy admin pages
+│         │    └── ...          # Shared UI components
+│         ├── constants/         # API_URL, IMG_URL, cookie/localstorage keys
+│         ├── interfaces/        # TypeScript type definitions
+│         ├── scss/              # SCSS source files
+│         ├── utils/             # HTTP, cookie, geolocation helpers
+│         ├── index.tsx          # Entry point (legacy)
+│         └── package.json
+├── packages/                    # (empty — reserved for shared packages)
+├── turbo.json                   # Turborepo configuration
+├── pnpm-workspace.yaml          # Workspace definition
+└── package.json                 # Root workspace manifest
 ```
 
 ## Key Architecture Points
 
-- **Build**: Webpack 5 with dual entry points — `src/index.tsx` (React app) and `scss/index.scss` (styles). Output: `index.min.js` + `index.css`.
-- **Routing**: React Router DOM v6 with `BrowserRouter`. Routes defined in `apps/web/src/components/Root.tsx`.
-- **Authentication**: JWT stored as an HTTP-only cookie. `PrivateRoute` component validates token expiry before rendering admin pages.
+- **Build**: Next.js 14 App Router with TypeScript. Output: static files to `.next/` directory.
+- **Routing**: File-based routing in `app/` directory. URL maps to file path (`/dishes/[id]` → `dishes/[id]/page.tsx`).
+- **Authentication**: JWT stored as HTTP-only cookie. Admin routes protected via API route handlers checking `Set-Cookie` header.
 - **API**: All API calls go to `https://api.sakabas.com`. Images served from CloudFront (`https://d1ds2m6k69pml3.cloudfront.net`).
-- **State**: Each page component manages its own state via React hooks (no global state manager).
-- **Data fetching**: Direct `fetch()` calls in `useEffect` with `JSON.parse(JSON.stringify())` for cloning (no axios or React Query).
+- **Server Components**: Default in `app/` directory (async page functions). Use `'use client'` for interactivity.
+- **State**: Server components fetch data directly; client components use React hooks for UI state.
+- **Data fetching**: Native `fetch()` in server components with automatic caching. Client components use `useEffect` with `fetch()`.
 - **Virtualized lists**: `react-window` used for performance on long lists.
 
 ## Commands
@@ -44,13 +59,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 export NODE_AUTH_TOKEN=ghp_your_token
 pnpm install
 
-# Development (starts web app dev server)
+# Development (starts Next.js dev server on port 3000)
 pnpm run dev
 
-# Production build (runs webpack + tsc)
+# Production build
 pnpm run build
 
-# Lint (not configured yet)
+# Start production server
+pnpm start
+
+# Lint
 pnpm run lint
 ```
 
@@ -65,7 +83,7 @@ pnpm run lint
 
 - Strict mode enabled (`strictNullChecks`, `noImplicitAny`, `noImplicitReturns`, `noUnusedLocals`, `noUnusedParameters`).
 - Target: ES5, JSX: react.
-- Each app has its own `tsconfig.json` extending the root.
+- App Router pages: Server Components by default (async functions).
 
 ## Skills
 
@@ -76,4 +94,5 @@ pnpm run lint
 - `@yumaeda/sakaba-interface` (1.2.0) — private npm package, requires `NODE_AUTH_TOKEN`.
 - `react-window` — virtualized rendering.
 - `jwt-decode` — token parsing.
-- `react-router-dom` v6 — routing.
+- `next` (14.0.0) — React framework with App Router.
+- `yet-another-react-lightbox` — image gallery.
