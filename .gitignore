@@ -7,3 +7,5 @@ index.min.js.LICENSE.txt
 main.css
 index.css
 .turbo
+apps/web/.next
+apps/web/next-env.d.ts
