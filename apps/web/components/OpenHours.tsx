@@ -12,7 +12,7 @@ const OpenHours: React.FC<Props> = (props) => {
     const { businessDayJson } = props
     let openHourText = ''
     if (businessDayJson !== '{}') {
-        const businessDayObj = JSON.parse(businessDayJson)
+        const businessDayObj = JSON.parse(businessDayJson || '{}')
         if (businessDayObj.hasOwnProperty(currentDay)) {
             const endTime = businessDayObj[currentDay]['End']
             if (endTime) {
