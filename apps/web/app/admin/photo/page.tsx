@@ -81,8 +81,7 @@ const PhotoAdminPage: React.FC = () => {
              }
         fetch(`${API_URL}/auth/photo/`, postOptions)
            .then(res => res.json())
-           .then(data => {
-             console.dir(data)
+           .then(() => {
              })
            .catch(error => {
              alert(`Error: ${JSON.stringify(error)}`)
