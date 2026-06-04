@@ -1,4 +1,5 @@
 import './globals.css'
+import '@/scss/index.scss'
 import type { Metadata } from 'next'
 import Footer from '../components/Footer'
 
@@ -14,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body>
+      <body className="body">
         {children}
         <Footer />
       </body>
