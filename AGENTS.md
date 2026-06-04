@@ -1,7 +1,7 @@
 # AGENTS.md
 
 ## Project Overview
-This is the frontend repository for **Sakaba Link (酒場 s)**, a platform for Tokyo restaurants focusing on takeout services. The application is built with **Next.js 14** (App Router), TypeScript, and uses React Server Components.
+This is the frontend repository for **Sakaba Link (酒場 s)**, a platform for Tokyo restaurants focusing on takeout services. The application is built with **Next.js 16** (App Router), TypeScript, and uses React Server Components.
 
 ## Tech Stack
 - **Framework**: Next.js 14 (App Router)
@@ -140,5 +140,4 @@ pnpm run lint
 ## Important Dependencies
 - `@yumaeda/sakaba-interface` (1.2.0) — private npm package
 - `jwt-decode` — token parsing
-- `react-window` — virtualized rendering
 - `yet-another-react-lightbox` — image gallery
