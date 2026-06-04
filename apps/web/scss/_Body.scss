@@ -123,8 +123,17 @@
     filter: invert(1);
 }
 
+.dish-image-list {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
 .dish-image-wrapper {
-    display: inline-block;
+    flex-shrink: 0;
     height: 85px;
     width: 100px;
     background-color: black;
