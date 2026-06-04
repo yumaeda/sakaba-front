@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Sakaba Link (酒場 s)** is a Next.js 14 frontend for a Tokyo restaurant takeout platform. The app lets users browse restaurants by area, dish type, drink category, or genre, and provides an admin dashboard for restaurant management.
+**Sakaba Link (酒場 s)** is a Next.js 16 frontend for a Tokyo restaurant takeout platform. The app lets users browse restaurants by area, dish type, drink category, or genre, and provides an admin dashboard for restaurant management.
 
 ## Monorepo Structure
 
@@ -66,7 +66,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Key Architecture Points
 
-- **Build**: Next.js 14 App Router with TypeScript. Output: static files to `.next/` directory.
+- **Build**: Next.js 16 App Router with TypeScript. Output: static files to `.next/` directory.
 - **Routing**: File-based routing in `app/` directory. URL maps to file path (`/dishes/[id]` → `dishes/[id]/page.tsx`).
 - **Authentication**: JWT stored as HTTP-only cookie. Admin routes protected via API route handlers checking `Set-Cookie` header.
 - **API**: All API calls go to `https://api.sakabas.com`. Images served from CloudFront (`https://d1ds2m6k69pml3.cloudfront.net`). Web URL: `https://sakabas.com`.
@@ -115,9 +115,8 @@ pnpm run lint
 ## Important Dependencies
 
 - `@yumaeda/sakaba-interface` (1.2.0) — private npm package, requires `NODE_AUTH_TOKEN`.
-- `react-window` — virtualized rendering.
 - `jwt-decode` — token parsing.
-- `next` (14.0.0) — React framework with App Router.
+- `next` (^16.2.7) — React framework with App Router.
 - `yet-another-react-lightbox` — image gallery.
 - `react` (^19.2.6) — UI library.
 - `react-dom` (^19.2.6) — DOM rendering.
