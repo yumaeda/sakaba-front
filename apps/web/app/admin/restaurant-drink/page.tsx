@@ -55,8 +55,7 @@ const RestaurantDrinkAdminPage: React.FC = () => {
          }
     fetch(`${API_URL}/auth/restaurant-drink/`, postOptions)
        .then(res => res.json())
-       .then(data => {
-         console.dir(data)
+       .then(() => {
          setDisable(false)
          })
        .catch(error => {

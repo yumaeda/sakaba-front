@@ -1,24 +1,26 @@
+import { Restaurant } from '@yumaeda/sakaba-interface' 
 import Link from 'next/link'
-import { API_URL } from '@/constants/Global'
-import Dish from '@/interfaces/Dish'
+import { API_URL, BASE_LATITUDE, IMG_URL, BASE_LONGITUDE } from '@/constants/Global'
 import RestaurantList from '@/components/RestaurantList'
 
-export default async function DishesPage({ params }: { params: Promise<{ id: string }> }) {
+interface PageProps {
+  params: Promise<{ id: string }>
+}
+
+export default async function DishesPage({ params }: PageProps) {
   const { id } = await params
   const dishId = Number(id)
+  const imageDir = `${IMG_URL}/images`
 
-  let dish: Dish | null = null
-  let restaurants: any[] = []
+  let restaurants: Restaurant[] = []
   let error: Error | undefined
 
   try {
-    const dishRes = await fetch(`${API_URL}/dishes/${dishId}/`, { headers: {} })
-    const dishData = await dishRes.json()
-    dish = JSON.parse(JSON.stringify(dishData.body))
-
-    const restaurantsRes = await fetch(`${API_URL}/dishes/${dishId}/restaurants/`, { headers: {} })
-    const restaurantsData = await restaurantsRes.json()
-    restaurants = JSON.parse(JSON.stringify(restaurantsData.body))
+    const restaurantsRes = await fetch(`${API_URL}/restaurants/dishes/${dishId}/${BASE_LATITUDE}/${BASE_LONGITUDE}`, {
+      headers: {}
+    })
+    const data = await restaurantsRes.json()
+    restaurants = JSON.parse(JSON.stringify(data.body))
   } catch (e) {
     error = e as Error
   }
@@ -30,19 +32,16 @@ export default async function DishesPage({ params }: { params: Promise<{ id: str
   return (
     <>
       <header className="header">
-        <p className="header-label">{dish?.name} 一覧</p>
+        <Link href="/">
+          <picture className="back-image-container">
+            <source type="image/webp" media="(min-width: 150px)" srcSet={`${imageDir}/back.webp`} />
+            <img src={`${imageDir}/back.png`} className="back-image" alt="Back" />
+          </picture>
+        </Link>
+        <p className="header-label">{id} 一覧</p>
       </header>
       <div className="contents">
         <RestaurantList restaurants={restaurants} />
-        <ul className="navigation-list">
-          <li className="navigation-item">
-            <span>
-              <Link className="list-item" href="/dishes/">
-                戻る
-              </Link>
-            </span>
-          </li>
-        </ul>
       </div>
     </>
   )

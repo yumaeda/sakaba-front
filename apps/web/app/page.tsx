@@ -25,7 +25,6 @@ export default async function HomePage() {
     const countsRes = await fetch(`${API_URL}/restaurant-counts/${latitude}/${longitude}`, { headers: {}, })
     const countsData = await countsRes.json()
     restaurantInfos = JSON.parse(JSON.stringify(countsData.body))
-    console.dir(restaurantInfos)
   } catch (e) {
     error = e as Error
   }

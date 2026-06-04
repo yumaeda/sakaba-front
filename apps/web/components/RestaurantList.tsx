@@ -17,9 +17,6 @@ interface Props {
 export default async function RestaurantList(props: Props) {
     const { restaurants } = props
     const showAllRestaurants = localStorage?.getItem('hideClosedRestaurants') !== "1"
-    const setImageUrls = (_urls: string[]) => {}
-    const setImageIndex = (_index: number) => {}
-    const setIsViewerOpen = (_isOpen: boolean) => {}
 
     const videosRes = await fetch(`${API_URL}/videos/`, { headers: {} })
     const videosData = await videosRes.json()
@@ -39,13 +36,7 @@ export default async function RestaurantList(props: Props) {
                                     <RestaurantPageLink id={restaurantId} area={openRestaurant.area} url={openRestaurant.url} name={openRestaurant.name} />
                                 </h4>
                             </div>
-                            <DishPhotoList
-                                basePath={IMG_URL}
-                                restaurantId={restaurantId}
-                                setImageUrls={setImageUrls}
-                                setImageIndex={setImageIndex}
-                                setIsViewerOpen={setIsViewerOpen}
-                            />
+                            <DishPhotoList basePath={IMG_URL} restaurantId={restaurantId} />
                             <div className="shop-info">
                                 <OpenHours businessDayJson={openRestaurant.businessDayInfo} />
                                 <span className="distance">{`${Number(openRestaurant.distance).toFixed(2)} km`}</span>
