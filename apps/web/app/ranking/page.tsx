@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
-import { API_URL, IMG_URL, WEB_URL } from '@/constants/Global'
+import Link from 'next/link'
+import { API_URL, IMG_URL } from '@/constants/Global'
 
 interface Ranking {
   dish: string
@@ -59,12 +60,12 @@ export default async function RankingPage() {
   return (
     <>
       <header className="header">
-        <a href={`${WEB_URL}/`}>
+        <Link href="/">
           <picture className="back-image-container">
             <source type="image/webp" media="(min-width: 150px)" srcSet={`${imageDir}/back.webp`} />
             <img src={`${imageDir}/back.png`} className="back-image" alt="Back" />
           </picture>
-        </a>
+        </Link>
         <p className="header-label">フードランキング</p>
       </header>
       <div className="contents">

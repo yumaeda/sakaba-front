@@ -15,8 +15,9 @@
 }
 
 .header-label {
-    margin: 0;
-    font-size: 8.0vw;
+    margin: 0 0 10px 0;
+    font-size: 30px;
+    text-align: center;
 }
 
 .second-paragraph {
@@ -49,8 +50,20 @@
 .navigation-item {
     font-size: 5.0vw;
     display: inline-block;
-    border: 1px dashed white;
-    padding: 20px 30px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 12px 20px;
+    margin: 4px;
+    background-color: #fff;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navigation-item:hover {
+    background-color: #ff6b35;
+    border-color: #ff6b35;
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.25);
+    transform: translateY(-1px);
 }
 
 .shop-name-wrapper {
@@ -115,7 +128,9 @@
 
 .back-image-container {
     float: left;
-    padding: 10px 0 0 40px;
+    padding: 10px 10px 0 40px;
+    text-align: left;
+    margin-left: 0;
 }
 
 .back-image {
@@ -168,7 +183,7 @@
 
 .list-item {
     text-decoration: none;
-    color: white;
+    color: lightslategrey;
 }
 
 .ranking-list {
