@@ -1,14 +1,13 @@
 'use client'
 
-import { IMG_URL, WEB_URL } from '@/constants/Global'
+import Link from 'next/link'
 import { LATITUDE_KEY, LONGITUDE_KEY } from '@/constants/LocalStorageKeys'
 import { getCurrentPosition, handleGeolocationError } from '@/utils/GeoLocationUtility'
 import { useEffect } from 'react'
-import Footer from '@/components/Footer'
+import Image from 'next/image'
 
 const GeolocationPage: React.FC = () => {
   const title = 'Geolocation'
-  const imageDir = `${IMG_URL}/images`
 
   useEffect(() => {
     getCurrentPosition({
@@ -28,20 +27,16 @@ const GeolocationPage: React.FC = () => {
   return (
     <>
       <header className="header">
-        <a href={`${WEB_URL}/`}>
-           <picture className="back-image-container">
-             <source type="image/webp" media="(min-width: 150px)" srcSet={`${imageDir}/back.webp`} />
-             <img src={`${imageDir}/back.png`} className="back-image" alt="Back" />
-           </picture>
-         </a>
-         <p className="header-label">{title}</p>
-        </header>
-        <div className="contents">
-            <p>現在地を更新します。</p>
-         </div>
-        <Footer />
-       </>
-     )
+        <p className="header-label">{title}</p>
+        <Link href="/"><span className="list-item">Back</span></Link>
+      </header>
+      <div className="contents">
+        <div className="footer">
+          <Image src="/images/geolocation.png" alt="Geolocation" width={1000} height={800}style={{ width: '100%', height: 'auto' }} />
+        </div>
+      </div>
+    </>
+  )
 }
 
 export default GeolocationPage

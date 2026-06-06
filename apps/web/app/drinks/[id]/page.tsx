@@ -1,6 +1,7 @@
 import { Restaurant } from '@yumaeda/sakaba-interface' 
+import Drink from '@/interfaces/Drink'
 import Link from 'next/link'
-import { API_URL, IMG_URL, BASE_LATITUDE, BASE_LONGITUDE } from '@/constants/Global'
+import { API_URL, BASE_LATITUDE, BASE_LONGITUDE } from '@/constants/Global'
 import RestaurantList from '@/components/RestaurantList'
 
 interface PageProps {
@@ -11,9 +12,9 @@ export default async function DrinksPage({ params }: PageProps) {
   const resolvedParams = await params
   const id = resolvedParams?.id || ''
   const drinkId = Number(id)
-  const imageDir = `${IMG_URL}/images`
 
   let restaurants: Restaurant[] = []
+  let drink: Drink = { id: 0, name: '' }
   let error: Error | undefined
 
   try {
@@ -22,6 +23,12 @@ export default async function DrinksPage({ params }: PageProps) {
     })
     const data = await restaurantsRes.json()
     restaurants = JSON.parse(JSON.stringify(data.body))
+
+    const drinkRes = await fetch(`${API_URL}/drinks/${id}`, {
+      headers: {}
+    })
+    const drinkData = await drinkRes.json()
+    drink = JSON.parse(JSON.stringify(drinkData.body))
   } catch (e) {
     error = e as Error
   }
@@ -33,13 +40,8 @@ export default async function DrinksPage({ params }: PageProps) {
   return (
      <>
        <header className="header">
-        <Link href="/">
-          <picture className="back-image-container">
-            <source type="image/webp" media="(min-width: 150px)" srcSet={`${imageDir}/back.webp`} />
-            <img src={`${imageDir}/back.png`} className="back-image" alt="Back" />
-          </picture>
-        </Link>
-          <p className="header-label">{id} 一覧</p>
+          <p className="header-label">{drink.name}</p>
+          <Link href="/"><span className="list-item">Back</span></Link>
         </header>
         <div className="contents">
           <RestaurantList restaurants={restaurants} />

@@ -77,7 +77,7 @@ export default async function HomePage() {
         <ul className="navigation-list">
           {restaurantInfos
             .map((info: RestaurantInfo) => (
-              <li className="navigation-item">
+              <li className="navigation-item" key={info.area}>
                 <span>
                   <Link className="list-item" href={`/${info.area}/`}>{info.name}</Link>
                 </span>
@@ -87,7 +87,7 @@ export default async function HomePage() {
         <h4 className="navigation-label">Drink</h4>
         <ul className="navigation-list">
           {drinks.map((drink: Drink) => (
-            <li className="navigation-item">
+            <li className="navigation-item" key={`drink-${drink.id}`}>
               <span>
                 <Link className="list-item" href={`/drinks/${drink.id}/`}>{drink.name}</Link>
               </span>
@@ -97,7 +97,7 @@ export default async function HomePage() {
         <h4 className="navigation-label">Genre</h4>
         <ul className="navigation-list">
           {genres.map((genre: Genre) => (
-            <li className="navigation-item">
+            <li className="navigation-item" key={`genre-${genre.id}`}>
               <span>
                 <Link className="list-item" href={`/genres/${genre.id}/`}>{genre.name}</Link>
               </span>
@@ -107,7 +107,7 @@ export default async function HomePage() {
         <h4 className="navigation-label">Dish</h4>
         <ul className="navigation-list">
           {dishes.map((dish: Dish) => (
-            <li className="navigation-item">
+            <li className="navigation-item" key={`dish-${dish.id}`}>
               <span>
                 <Link className="list-item" href={`/dishes/${dish.id}/`}>{dish.name}</Link>
               </span>

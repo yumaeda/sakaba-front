@@ -1,5 +1,5 @@
 import { Restaurant } from '@yumaeda/sakaba-interface' 
-import { API_URL, IMG_URL, BASE_LATITUDE, BASE_LONGITUDE } from '@/constants/Global'
+import { API_URL, BASE_LATITUDE, BASE_LONGITUDE } from '@/constants/Global'
 import RestaurantList from '@/components/RestaurantList'
 import Link from 'next/link'
 
@@ -12,7 +12,6 @@ export default async function AreaPage({ params }: PageProps) {
   const area = resolvedParams?.area || ''
   const latitude = BASE_LATITUDE
   const longitude = BASE_LONGITUDE
-  const imageDir = `${IMG_URL}/images`
 
   let restaurants: Restaurant[] = []
   let error: Error | undefined
@@ -34,13 +33,8 @@ export default async function AreaPage({ params }: PageProps) {
   return (
     <>
       <header className="header">
-        <Link href="/">
-          <picture className="back-image-container">
-            <source type="image/webp" media="(min-width: 150px)" srcSet={`${imageDir}/back.webp`} />
-            <img src={`${imageDir}/back.png`} className="back-image" alt="Back" />
-          </picture>
-        </Link>
         <p className="header-label">{area}</p>
+        <Link href="/"><span className="list-item">Back</span></Link>
       </header>
       <div className="contents">
         <RestaurantList restaurants={restaurants} />
