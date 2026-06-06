@@ -1,27 +1,30 @@
-import * as React from 'react'
+/**
+ * @author Yukitaka Maeda [yumaeda@gmail.com]
+ */
+import SelectDropdown from './UI/SelectDropdown'
 import { Category } from '@yumaeda/sakaba-interface'
 
 interface Props {
-    categories: Category[]
-    handleChange: React.ChangeEventHandler<HTMLSelectElement>
-    column: string
-    value: number
+  categories: Category[]
+  handleChange: React.ChangeEventHandler<HTMLSelectElement>
+  column: string
+  value: number
 }
 
 const CategoryDropDown: React.FC<Props> = (props) => {
-  const {
-    categories, column, handleChange, value
-  } = props
+  const { categories, column, handleChange, value } = props
 
-  return (categories.length > 0) ? (
-    <select name={column} defaultValue={value} onChange={handleChange}>
-      {
-                [{ id: 0, name: '未選択' }, ...categories].map((category: Category) => (
-                  <option value={category.id}>{category.name}</option>
-                ))
-            }
-    </select>
-  ) : <span />
+  return (
+     <SelectDropdown
+       items={categories}
+       value={value.toString()}
+       onChange={handleChange}
+       name={column}
+       defaultValue={value.toString()}
+       prependDefaultOption
+       defaultOptionName="未選択"
+      />
+     )
 }
 
 export default CategoryDropDown
