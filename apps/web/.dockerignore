@@ -1,0 +1,43 @@
+# Git
+.git
+.gitignore
+
+# Node modules (will be copied explicitly)
+node_modules
+
+# Development files
+.next/cache
+.next/standalone
+.next/static
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Test
+coverage
+*.test.js
+*.spec.js
+
+# Documentation
+README.md
+docs
+
+# Docker
+Dockerfile
+.dockerignore
