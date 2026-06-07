@@ -1,5 +1,5 @@
 import { Restaurant } from '@yumaeda/sakaba-interface'
-import Drink from '@/interfaces/Drink'
+import Dish from '@/interfaces/Dish'
 import Link from 'next/link'
 import { API_URL, BASE_LATITUDE, BASE_LONGITUDE } from '@/constants/Global'
 import RestaurantList from '@/components/RestaurantList'
@@ -14,7 +14,7 @@ export default async function DishesPage({ params }: PageProps) {
   const dishId = Number(id)
 
   let restaurants: Restaurant[] = []
-  let dish: Drink = { id: 0, name: '' }
+  let dish: Dish = { id: 0, name: '' }
   let error: Error | undefined
 
   try {
