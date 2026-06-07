@@ -1,31 +1,31 @@
 /**
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
-import * as React from 'react'
 import Photo from '@/interfaces/Photo'
+import WebPImage from './UI/WebPImage'
 
 interface Props {
-    basePath: string
-    photos: Photo[] | null
+  photos: Photo[] | null
 }
 
 const LatestPhotoList: React.FC<Props> = (props) => {
-    const { basePath, photos } = props
+  const { photos } = props
 
-    return (
-        <div className="latest-image-container">
-        {
-            photos?.map((photo: Photo, index: number) => (
-                <div className="latest-image-wrapper">
-                    <picture>
-                        <source type="image/webp" media="(min-width: 150px)" srcSet={`${basePath}/images/restaurants/${photo.restaurant_id}/${photo.thumbnail_webp}`} />
-                        <img src={`${basePath}/images/restaurants/${photo.restaurant_id}/${photo.thumbnail}`} className="tile-image latest-image" alt={`店舗写真${index}`} />
-                    </picture>
-                </div>
-            ))
-        }
-        </div>
-    )
+  return (
+         <div className="latest-image-container">
+            {photos?.map((photo: Photo, index: number) => (
+              <div className="latest-image-wrapper">
+                <WebPImage
+                  restaurantId={photo.restaurant_id}
+                  thumbnail={photo.thumbnail}
+                  thumbnailWebp={photo.thumbnail_webp}
+                  alt={`店舗写真${index}`}
+                  className="tile-image latest-image"
+                />
+              </div>
+            ))}
+          </div>
+        )
 }
 
 export default LatestPhotoList
