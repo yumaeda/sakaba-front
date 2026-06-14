@@ -51,39 +51,40 @@ const MenuAdminPage: React.FC = () => {
      }, [])
 
   const handleAddMenu = () => {
-    const emptyMenu: Menu = {
+    const emptyMenu: any = {
       id: uuidv4(),
-      restaurantId,
-      sortOrder: 0,
+      restaurant_id: restaurantId,
+      sort_order: 0,
       category: 0,
-      subCategory: 0,
+      sub_category: 0,
       region: 0,
       name: '',
-      nameJpn: '',
+      name_jpn: '',
       price: 0,
-      isMinPrice: 0,
-      isHidden: 0,
-        }
+      is_min_price: 0,
+      is_hidden: 0,
+    }
 
     const postOptions: RequestInit = {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
-         },
+      },
       body: JSON.stringify(emptyMenu),
-        }
+    }
     fetch(`${API_URL}/auth/menu/`, postOptions)
        .then((res) => res.json())
-       .then(() => {
+       .then((data) => {
+        console.dir(data)
         setMenus([camelcaseKeys(emptyMenu), ...menus])
         window.scroll(0, 0)
-         })
-     }
+    })
+  }
 
   const findMenuIndexById = (id: string): number => {
     return menus.findIndex(menu => menu.id === id)
-     }
+  }
 
   const handleDeleteMenu = () => {
     const deleteOptions: RequestInit = {
@@ -95,21 +96,21 @@ const MenuAdminPage: React.FC = () => {
       body: JSON.stringify({
          id: menuId,
          }),
-         }
+    }
     fetch(`${API_URL}/auth/menu/`, deleteOptions)
-       .then((res) => res.json())
-       .then(() => {
+      .then((res) => res.json())
+      .then(() => {
         const newMenus = [...menus]
         newMenus.splice(menuIndex, 1)
         setMenus(newMenus)
-         })
-     }
+      })
+  }
 
   const handleFocus = (event: React.FormEvent<HTMLTableRowElement>) => {
     const tmpMenuId = event.currentTarget.getAttribute('id') || ''
     setMenuId(tmpMenuId)
     setMenuIndex(findMenuIndexById(tmpMenuId))
-     }
+  }
 
   const updateMenu = (column: string, value: string) => {
     const postOptions: RequestInit = {
