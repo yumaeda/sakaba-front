@@ -7,8 +7,10 @@ import { v4 as uuidv4 } from 'uuid'
 import camelcaseKeys from 'camelcase-keys'
 import { API_URL } from '@/constants/Global'
 import { getCookie } from '@/utils/CookieUtility'
+import restaurantIdHash from '@/utils/RestaurantIdHash'
 import { JWT_KEY } from '@/constants/CookieKeys'
 import CategoryDropDown from '@/components/CategoryDropDown'
+import { USER_NAME_KEY } from '@/constants/LocalStorageKeys'
 
 const MenuAdminPage: React.FC = () => {
   const [token, setToken] = useState<string>('')
@@ -16,7 +18,8 @@ const MenuAdminPage: React.FC = () => {
   const [menus, setMenus] = useState<Menu[]>([])
   const [menuId, setMenuId] = useState<string>('')
   const [menuIndex, setMenuIndex] = useState<number>(0)
-  const restaurantId = 'yumaeda' // This should come from user context
+  const userIdKey = typeof window !== 'undefined' ? localStorage.getItem(USER_NAME_KEY) : ''
+  const restaurantId = restaurantIdHash[userIdKey || '']
 
   useEffect(() => {
     setToken(getCookie(JWT_KEY))
