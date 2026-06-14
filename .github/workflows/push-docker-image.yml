@@ -28,5 +28,5 @@ jobs:
 
       - name: 'Build and push Docker image'
         run: |
-          docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMG_NAME }}:latest .
+          docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMG_NAME }}:latest -f apps/web/Dockerfile .
           docker push ${{ env.REGION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMG_NAME }}:latest
