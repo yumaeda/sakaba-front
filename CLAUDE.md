@@ -78,8 +78,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-# Install dependencies (requires GitHub token for private package @yumaeda/sakaba-interface)
-export NODE_AUTH_TOKEN=ghp_your_token
 pnpm install
 
 # Development (starts Next.js dev server on port 3000)
@@ -114,7 +112,6 @@ pnpm run lint
 
 ## Important Dependencies
 
-- `@yumaeda/sakaba-interface` (1.2.0) — private npm package, requires `NODE_AUTH_TOKEN`.
 - `jwt-decode` — token parsing.
 - `next` (^16.2.7) — React framework with App Router.
 - `yet-another-react-lightbox` — image gallery.

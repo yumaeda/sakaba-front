@@ -2,7 +2,7 @@
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
 import * as React from 'react'
-import { Menu } from '@yumaeda/sakaba-interface'
+import Menu from '@/interfaces/Menu'
 import MenuPrice from './MenuPrice'
 
 interface Props {

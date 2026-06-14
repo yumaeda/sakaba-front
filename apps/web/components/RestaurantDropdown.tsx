@@ -2,7 +2,7 @@
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
 import SelectDropdown from './UI/SelectDropdown'
-import { Restaurant } from '@yumaeda/sakaba-interface'
+import Restaurant from '@/interfaces/Restaurant'
 
 interface Props {
   restaurants: Restaurant[]

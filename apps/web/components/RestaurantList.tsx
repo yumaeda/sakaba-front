@@ -1,7 +1,7 @@
 /**
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
-import { Restaurant } from '@yumaeda/sakaba-interface'
+import Restaurant from '@/interfaces/Restaurant'
 import { API_URL, IMG_URL } from '@/constants/Global'
 import Address from './Address'
 import DishPhotoList from './DishPhotoList'
@@ -16,7 +16,7 @@ interface Props {
 
 export default async function RestaurantList(props: Props) {
     const { restaurants } = props
-    const showAllRestaurants = localStorage?.getItem('hideClosedRestaurants') !== "1"
+    const showAllRestaurants = typeof window !== 'undefined' ? localStorage.getItem('hideClosedRestaurants') !== "1" : true
 
     const videosRes = await fetch(`${API_URL}/videos/`, { headers: {} })
     const videosData = await videosRes.json()

@@ -1,4 +1,4 @@
-import { Restaurant } from '@yumaeda/sakaba-interface'
+import Restaurant from '@/interfaces/Restaurant'
 import Drink from '@/interfaces/Drink'
 import Link from 'next/link'
 import { API_URL, BASE_LATITUDE, BASE_LONGITUDE } from '@/constants/Global'

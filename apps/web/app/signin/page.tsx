@@ -54,7 +54,9 @@ export default function SignInPage() {
 
       try {
         const decoded = jwtDecode<JwtPayload>(data.token)
-        localStorage.setItem(USER_NAME_KEY, decoded.id.split('@')[0])
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(USER_NAME_KEY, decoded.id.split('@')[0])
+        }
        } catch (error) {
         console.error('Failed to decode token:', error)
        }

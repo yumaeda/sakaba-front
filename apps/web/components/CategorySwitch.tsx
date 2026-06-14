@@ -3,7 +3,7 @@
  */
 import * as React from 'react'
 import camelcaseKeys from 'camelcase-keys'
-import { Category } from '@yumaeda/sakaba-interface'
+import Category from '@/interfaces/Category'
 import { API_URL } from '@/constants/Global'
 
 interface Props {

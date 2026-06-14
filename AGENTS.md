@@ -138,6 +138,5 @@ pnpm run lint
 - Functional API routes in `app/api/`
 
 ## Important Dependencies
-- `@yumaeda/sakaba-interface` (1.2.0) — private npm package
 - `jwt-decode` — token parsing
 - `yet-another-react-lightbox` — image gallery

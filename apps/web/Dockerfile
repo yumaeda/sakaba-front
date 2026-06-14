@@ -1,30 +1,16 @@
-# Stage 1: Dependencies
-FROM node:20-alpine AS deps
+# Stage 1: Build
+FROM node:22-alpine AS builder
+
 WORKDIR /app
 
 # Install pnpm
-RUN corepack enable && corepack prepare pnpm@11.0.0 --activate
+RUN corepack enable && corepack prepare pnpm@11.6.0 --activate
 
 # Copy package files
-COPY ../../pnpm-workspace.yaml ./
-COPY ../../package.json ./
-COPY ./package.json ./
+COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
+COPY apps/web/package.json ./apps/web/
 
-# Install dependencies
 RUN pnpm install --frozen-lockfile
-
-# Stage 2: Build
-FROM node:20-alpine AS builder
-WORKDIR /app
-
-# Install pnpm
-RUN corepack enable && corepack prepare pnpm@11.0.0 --activate
-
-# Copy dependencies from deps stage
-COPY --from=deps /app/node_modules ./node_modules
-COPY ../../pnpm-workspace.yaml ./
-COPY ../../package.json ./
-COPY ./package.json ./
 
 # Copy source code
 COPY . .
@@ -32,37 +18,28 @@ COPY . .
 # Build the application
 RUN pnpm build
 
-# Stage 3: Production
-FROM node:20-alpine AS runner
+# Stage 2: Production
+FROM node:22-alpine AS runner
+
 WORKDIR /app
 
 # Create non-root user for security
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Install pnpm
-RUN corepack enable && corepack prepare pnpm@11.0.0 --activate
-
-# Copy node_modules from builder
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=builder /app/apps/web/node_modules ./node_modules
-
-# Copy package.json
-COPY ./package.json ./
-
-# Copy next.config.mjs if it exists
-COPY ./next.config.mjs ./
-
-# Copy built application
+# 1. Copy the standalone build output directly to the runner workdir
 COPY --from=builder /app/apps/web/.next/standalone ./
-COPY --from=builder /app/apps/web/.next/static ./.next/static
+
+# 2. Copy static files into their expected subfolder layout inside standalone
+COPY --from=builder /app/apps/web/.next/static ./apps/web/.next/static
+COPY --from=builder /app/apps/web/public ./apps/web/public
 
 # Set environment
 ENV NODE_ENV=production
 ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
 
-# Create public directory
-RUN mkdir -p /app/public && chown -R nextjs:nodejs /app
+RUN chown -R nextjs:nodejs /app
 
 # Switch to non-root user
 USER nextjs
@@ -71,4 +48,4 @@ USER nextjs
 EXPOSE 3000
 
 # Start the application
-CMD ["node", "server.js"]
+CMD ["node", "apps/web/server.js"]

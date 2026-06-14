@@ -7,8 +7,10 @@ const MemberPage: React.FC = () => {
   const router = useRouter()
 
   useEffect(() => {
-    localStorage.setItem('hideClosedRestaurants', '1')
-    router.push('/')
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('hideClosedRestaurants', '1')
+      router.push('/')
+    }
     }, [])
 
   return null
