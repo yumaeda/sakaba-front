@@ -1,14 +1,34 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import Restaurant from '@/interfaces/Restaurant'
+import camelcaseKeys from 'camelcase-keys'
 import Link from 'next/link'
 import { API_URL } from '@/constants/Global'
-import AdminRestaurantSelector from '../components/AdminRestaurantSelector'
+import { getCookie } from '@/utils/CookieUtility'
+import { JWT_KEY } from '@/constants/CookieKeys'
+import RestaurantDropdown from '@/components/RestaurantDropdown'
 
 const PhotoAdminPage: React.FC = () => {
-  const [restaurantId, setRestaurantId] = useState<string>('')
+  const [token, setToken] = useState<string>('')
+  const [disable, setDisable] = useState<boolean>(false)
   const [files, setFiles] = useState<FileList>()
-  const setDisable = (_: boolean) => {}
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([])
+  const [restaurantId, setRestaurantId] = useState<string>('')
+
+  useEffect(() => {
+    setToken(getCookie(JWT_KEY))
+    fetch(`${API_URL}/restaurants/`, { headers: {} })
+      .then(res => res.json())
+      .then((data) => {
+        const tmpRestaurants = camelcaseKeys(JSON.parse(JSON.stringify(data.body))) 
+        setRestaurantId(tmpRestaurants[0].id)
+        setRestaurants(tmpRestaurants)
+      })
+      .catch(error => {
+        alert(`Error: ${JSON.stringify(error)}`)
+      })
+  }, [])
 
   const getBase64 = (file: File) => {
     return new Promise((resolve, reject) => {
@@ -16,29 +36,31 @@ const PhotoAdminPage: React.FC = () => {
       reader.readAsDataURL(file)
       reader.onload = () => resolve(reader.result)
       reader.onerror = error => reject(error)
-         })
-      }
+    })
+  }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.currentTarget.files != null) {
       setFiles(event.currentTarget.files)
-        }
-        }
+    }
+  }
+
+  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setRestaurantId(event.currentTarget.value)
+  }
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault()
 
-    const token = ''
-
     if (token === '') {
       alert('Token is expired or invalid!')
       return
-     }
+    }
 
     if (files == null || files.length === 0) {
       alert('Please choose files to upload!')
       return
-        }
+    }
 
     setDisable(true)
     Array.from(files).forEach((file: File) => {
@@ -46,47 +68,43 @@ const PhotoAdminPage: React.FC = () => {
         const restaurant_photo = {
           restaurant_id: restaurantId,
           file_content: String(base64),
-            }
+        }
         const postOptions: RequestInit = {
           method: 'POST',
           headers: {
-               'Content-Type': 'application/json',
-               'Authorization': `Bearer ${token}`,
-                 },
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
           body: JSON.stringify(restaurant_photo),
-               }
+        }
         fetch(`${API_URL}/auth/photo/`, postOptions)
-                 .then(res => res.json())
-                 .then(() => {
-                   setDisable(false)
-                 })
-                 .catch(error => {
-                   alert(`Error: ${JSON.stringify(error)}`)
-                   setDisable(false)
-                 })
-             })
-           })
-     }
+          .then(res => res.json())
+          .then(data => {
+            console.dir(data)
+          })
+          .catch(error => {
+              alert(`Error: ${JSON.stringify(error)}`)
+          })
+      })
+    })
+  }
 
   return (
-      <>
-         <header className="admin-header">
-            <h1 className="admin-header-title">{`管理者ページ`}</h1>
-            <Link href="/admin/index">Home</Link>
-           </header>
-           <div className="admin-contents">
-             <AdminRestaurantSelector
-             onRestaurantSelect={setRestaurantId}
-             onFormSubmit={handleSubmit}
-             submitButtonText="Upload"
-             apiEndpoint={`${API_URL}/auth/photo/`}
-                />
-                <div>
-                  <input className="admin-input" type="file" onChange={handleChange} multiple />
-                </div>
-              </div>
-            </>
-          )
+    <>
+      <header className="admin-header">
+        <h1 className="admin-header-title">{`管理者ページ`}</h1>
+        <Link href="/admin/index">Home</Link>
+      </header>
+      <div className="admin-contents">
+        <RestaurantDropdown onSelect={handleSelect} restaurantId={restaurantId} restaurants={restaurants} />
+        <br />
+        <div>
+          <input className="admin-input" type="file" onChange={handleChange} multiple />
+          <button className="admin-button" type="submit" onClick={handleSubmit} disabled={disable}>Upload</button>
+        </div>
+      </div>
+    </>
+  )
 }
 
 export default PhotoAdminPage
