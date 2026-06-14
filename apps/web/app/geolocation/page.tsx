@@ -16,8 +16,10 @@ const GeolocationPage: React.FC = () => {
       maximumAge: 0,
       })
         .then((position: GeolocationPosition) => {
-          localStorage.setItem(LATITUDE_KEY, position.coords.latitude.toString())
-          localStorage.setItem(LONGITUDE_KEY, position.coords.longitude.toString())
+          if (typeof window !== 'undefined') {
+            localStorage.setItem(LATITUDE_KEY, position.coords.latitude.toString())
+            localStorage.setItem(LONGITUDE_KEY, position.coords.longitude.toString())
+          }
          })
         .catch((error: GeolocationPositionError) => {
           handleGeolocationError(error)

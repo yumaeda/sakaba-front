@@ -2,7 +2,7 @@
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
 import { useState, useEffect } from 'react'
-import { Restaurant } from '@yumaeda/sakaba-interface'
+import Restaurant from '@/interfaces/Restaurant'
 import camelcaseKeys from 'camelcase-keys'
 import { API_URL } from '@/constants/Global'
 

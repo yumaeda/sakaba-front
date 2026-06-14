@@ -2,7 +2,7 @@
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
 import SelectDropdown from './UI/SelectDropdown'
-import { Category } from '@yumaeda/sakaba-interface'
+import Category from '@/interfaces/Category'
 
 interface Props {
   categories: Category[]

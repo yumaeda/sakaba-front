@@ -14,9 +14,6 @@ importers:
 
   apps/web:
     dependencies:
-      '@yumaeda/sakaba-interface':
-        specifier: ^1.2.0
-        version: 1.2.0
       camelcase-keys:
         specifier: ^10.0.2
         version: 10.0.2
@@ -405,9 +402,6 @@ packages:
 
   '@types/uuid@8.3.4':
     resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
-
-  '@yumaeda/sakaba-interface@1.2.0':
-    resolution: {integrity: sha512-sDqC6p1AXzuhzqGDG+UOlpvYXxifRmJYCqYU5RcFp/9NCkb71DaD8tRVBXfPQsMv2L11Mo8PEr39xSfD7hBobA==}
 
   baseline-browser-mapping@2.10.33:
     resolution: {integrity: sha512-bA6+tcSLpz2tIEdDXZPpPTIuxBcC4+w6SieaYyfigIa4h8GlFxbA17v22Vx3JUtuZQj9SgOsnbK+aTBzyDyEuw==}
@@ -817,8 +811,6 @@ snapshots:
       csstype: 3.2.3
 
   '@types/uuid@8.3.4': {}
-
-  '@yumaeda/sakaba-interface@1.2.0': {}
 
   baseline-browser-mapping@2.10.33: {}
 

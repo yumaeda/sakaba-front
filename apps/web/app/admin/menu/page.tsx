@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Category, Menu } from '@yumaeda/sakaba-interface'
+import Category from '@/interfaces/Category'
+import Menu from '@/interfaces/Menu'
 import { v4 as uuidv4 } from 'uuid'
 import camelcaseKeys from 'camelcase-keys'
 import { API_URL } from '@/constants/Global'

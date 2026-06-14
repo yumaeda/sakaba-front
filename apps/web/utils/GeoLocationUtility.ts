@@ -10,11 +10,11 @@ const getCurrentPosition = (options?: PositionOptions): Promise<GeolocationPosit
 }
 
 const getLatitude = (): string => {
-    return localStorage.getItem(LATITUDE_KEY) || DEFAULT_LATITUDE
+    return typeof window !== 'undefined' ? localStorage.getItem(LATITUDE_KEY) || DEFAULT_LATITUDE : DEFAULT_LATITUDE
 }
 
 const getLongitude = (): string => {
-    return localStorage.getItem(LONGITUDE_KEY) || DEFAULT_LONGITUDE
+    return typeof window !== 'undefined' ? localStorage.getItem(LONGITUDE_KEY) || DEFAULT_LONGITUDE : DEFAULT_LONGITUDE
 }
 
 const handleGeolocationError = (error: GeolocationPositionError) => {

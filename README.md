@@ -37,13 +37,12 @@ pnpm start
 
 ### Build Docker image
 ```zsh
-cd apps/web
-docker build -t sakaba-front .
+docker build -t sakabas-nexjs -f apps/web/Dockerfile .
 ```
 
 ### Run Docker container locally
 ```zsh
-docker run -p 3000:3000 sakaba-front
+docker run -p 3000:3000 sakabas-nextjs
 ```
 
 ### Run with environment variables
@@ -51,7 +50,7 @@ docker run -p 3000:3000 sakaba-front
 docker run -p 3000:3000 \
    -e API_URL=https://api.sakabas.com \
    -e IMG_URL=https://d1ds2m6k69pml3.cloudfront.net \
-  sakaba-front
+  sakabas-nextjs
 ```
 
 The container will serve the application on `http://localhost:3000`.
