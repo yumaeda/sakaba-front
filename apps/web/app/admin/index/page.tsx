@@ -4,9 +4,6 @@ import { cookies } from 'next/headers'
 import { JWT_KEY } from '@/constants/CookieKeys'
 import { jwtDecode } from 'jwt-decode'
 import JwtPayload from '@/interfaces/JwtPayload'
-import { API_URL } from '@/constants/Global'
-
-import camelcaseKeys from 'camelcase-keys'
 
 export default async function HomeAdminPage() {
   const cookieStore = await cookies()
@@ -29,20 +26,9 @@ export default async function HomeAdminPage() {
   }
 
   const userId = (decoded.id.split('@')[0] || '') as string
+  console.log(`ユーザーID: ${userId}`)
 
-  let restaurants = []
-
-  if (userId === 'yumaeda') {
-    try {
-      const res = await fetch(`${API_URL}/restaurants/`, { headers: {} })
-      const data = await res.json()
-      restaurants = camelcaseKeys(JSON.parse(JSON.stringify(data.body)))
-    } catch {
-      // Handle error
-    }
-  }
-
-  return (
+  return (userId !== 'yumaeda') ? (
     <>
       <header className="admin-header">
         <h1 className="admin-header-title">{`管理者ページ`}</h1>
@@ -50,16 +36,21 @@ export default async function HomeAdminPage() {
       <div className="admin-contents">
         <h2>管理者ホーム</h2>
         <Link href="/admin/menu">メニューの編集</Link>
-        {userId === 'yumaeda' && (
-          <>
-            <h3>レストラン一覧</h3>
-            <ul>
-              {restaurants.map((restaurant: { id: string; name: string; }) => (
-                <li key={restaurant.id}>{restaurant.name}</li>
-              ))}
-            </ul>
-          </>
-        )}
+      </div>
+    </>
+  ) : (
+    <>
+      <header className="admin-header">
+        <h1 className="admin-header-title">{`管理者ページ`}</h1>
+      </header>
+      <div className="admin-contents">
+        <ul>
+            <li><Link href="/admin/menu">メニューを管理</Link></li>
+            <li><Link href="/admin/photo">写真を登録</Link></li>
+            <li><Link href="/admin/restaurant-genre">レストランのジャンルを登録</Link></li>
+            <li><Link href="/admin/restaurant-drink">レストランにお酒を登録</Link></li>
+            <li><Link href="/admin/restaurant">レストランを登録</Link></li>
+        </ul>
       </div>
     </>
   )
