@@ -4,7 +4,7 @@
 This is the frontend repository for **Sakaba Link (酒場 s)**, a platform for Tokyo restaurants focusing on takeout services. The application is built with **Next.js 16** (App Router), TypeScript, and uses React Server Components.
 
 ## Tech Stack
-- **Framework**: Next.js 14 (App Router)
+- **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript
 - **Styling**: SCSS (globals.css, scss/)
 - **Routing**: Next.js App Router (`app/` directory)
@@ -15,79 +15,79 @@ This is the frontend repository for **Sakaba Link (酒場 s)**, a platform for T
 ```
 apps/
 └── web/
-    ├── app/                      # Next.js App Router
-     │     ├── (layout)/           # Root layout wrapper
-     │     ├── admin/              # Admin dashboard routes
-     │     │     ├── index/
-     │     │     ├── menu/
-     │     │     ├── photo/
-     │     │     ├── restaurant/
-     │     │     ├── restaurant-drink/
-     │     │     └── restaurant-genre/
-     │     ├── area/               # Area listing pages
-     │     ├── dishes/             # Dish listing pages
-     │     ├── drinks/             # Drink listing pages
-     │     ├── genres/             # Genre listing pages
-     │     ├── geolocation/        # Geolocation page
-     │     ├── member/             # Member pages
-     │     ├── ranking/            # Ranking pages
-     │     ├── restaurant/         # Restaurant detail pages
-     │     ├── signin/             # Sign-in pages
-     │     ├── api/                # API routes
-     │     │     ├── auth/         # Auth API routes
-     │     │     ├── dishes/
-     │     │     ├── drinks/
-     │     │     ├── genres/
-     │     │     ├── latest-photos/
-     │     │     ├── login/
-     │     │     ├── menus/
-     │     │     ├── rankings/
-     │     │     ├── restaurants/
-     │     │     └── restaurant-counts/
-     │     ├── layout.tsx          # Root layout
-     │     └── page.tsx            # Home page
-     ├── components/               # React components
-     │     ├── Address.tsx
-     │     ├── CategoryDropDown.tsx
-     │     ├── CategorySwitch.tsx
-     │     ├── DishPhotoList.tsx
-     │     ├── Dropdown.tsx
-     │     ├── Footer.tsx
-     │     ├── LatestPhotoList.tsx
-     │     ├── MenuList.tsx
-     │     ├── MenuPrice.tsx
-     │     ├── OpenHours.tsx
-     │     ├── PhoneNumber.tsx
-     │     ├── RestaurantDropdown.tsx
-     │     ├── RestaurantList.tsx
-     │     ├── RestaurantPageLink.tsx
-     │     └── RestaurantVideoList.tsx
-     ├── constants/                # API_URL, IMG_URL, cookie keys
-     │    ├── CookieKeys.ts
-     │    ├── Global.ts
-     │    └── LocalStorageKeys.ts
-     ├── interfaces/               # TypeScript type definitions
-     │    ├── Area.ts
-     │    ├── Dish.ts
-     │    ├── Drink.ts
-     │    ├── Genre.ts
-     │    ├── Geolocation.ts
-     │    ├── Item.ts
-     │    ├── JwtPayload.ts
-     │    ├── Photo.ts
-     │    ├── RestaurantInfo.ts
-     │    └── Video.ts
-     ├── scss/                     # SCSS source files
-     │    ├── _Admin.scss
-     │    ├── _Body.scss
-     │    ├── _Menu.scss
-     │    └── index.scss
-     ├── utils/                    # HTTP, cookie, geolocation helpers
-     │    ├── CookieUtility.ts
-     │    ├── GeoLocationUtility.ts
-     │    ├── HttpUtility.ts
-     │    └── RestaurantIdHash.ts
-     ├── index.tsx                 # Entry point
+     ├── app/                        # Next.js App Router
+     │       ├── [area]/               # Area listing pages
+     │       ├── admin/                # Admin dashboard routes
+     │        │       ├── index/
+     │        │       ├── menu/
+     │        │       ├── photo/
+     │        │       ├── restaurant/
+     │        │       ├── restaurant-drink/
+     │        │       └── restaurant-genre/
+     │        ├── components/           # Shared listing page component
+     │        ├── dishes/               # Dish listing pages
+     │        ├── drinks/               # Drink listing pages
+     │        ├── genres/               # Genre listing pages
+     │        ├── geolocation/          # Geolocation page
+     │        ├── member/               # Member pages
+     │        ├── ranking/              # Ranking pages
+     │        ├── restaurant/           # Restaurant detail pages
+     │        ├── signin/               # Sign-in pages
+     │        ├── api/                  # API routes
+     │         │       ├── auth/           # Auth API routes
+     │         │       ├── categories/
+     │         │       ├── dishes/
+     │         │       ├── drinks/
+     │         │       ├── genres/
+     │         │       ├── latest-photos/
+     │         │       ├── login/
+     │         │       ├── menus/
+     │         │       ├── rankings/
+     │         │       ├── restaurants/
+     │         │       └── restaurant-counts/
+     │        ├── layout.tsx            # Root layout
+     │        └── page.tsx              # Home page
+     ├── components/                   # React components
+     │       ├── Address.tsx
+     │       ├── CategoryDropDown.tsx
+     │       ├── CategorySwitch.tsx
+     │       ├── DishPhotoList.tsx
+     │       ├── Dropdown.tsx
+     │       ├── Footer.tsx
+     │       ├── LatestPhotoList.tsx
+     │       ├── MenuList.tsx
+     │       ├── MenuPrice.tsx
+     │       ├── OpenHours.tsx
+     │       ├── PhoneNumber.tsx
+     │       ├── RestaurantDropdown.tsx
+     │       ├── RestaurantList.tsx
+     │       ├── RestaurantPageLink.tsx
+     │       ├── RestaurantView.tsx
+     │       └── UI/                     # UI subdirectory
+     ├── constants/                    # API_URL, IMG_URL, cookie keys
+     │      ├── CookieKeys.ts
+     │       ├── Global.ts
+     │       └── LocalStorageKeys.ts
+     ├── interfaces/                   # TypeScript type definitions
+     │      ├── Area.ts
+     │       ├── Category.ts
+     │       ├── Dish.ts
+     │       ├── Drink.ts
+     │       ├── Genre.ts
+     │       ├── Geolocation.ts
+     │       ├── Item.ts
+     │       ├── JwtPayload.ts
+     │       ├── Menu.ts
+     │       ├── Photo.ts
+     │       ├── Restaurant.ts
+     │       ├── RestaurantInfo.ts
+     │       └── Video.ts
+     ├── scss/                         # SCSS source files
+     │      ├── _Admin.scss
+     │       ├── _Body.scss
+     │       ├── _Menu.scss
+     │       └── index.scss
+     ├── index.tsx                     # Entry point
      └── package.json
 ```
 
@@ -133,10 +133,12 @@ pnpm run lint
 
 ## Code Style
 - TypeScript strict mode enabled
-- Next.js 14 App Router patterns (server components by default)
+- Next.js 16 App Router patterns (server components by default)
 - React functional components with hooks
 - Functional API routes in `app/api/`
 
 ## Important Dependencies
 - `jwt-decode` — token parsing
 - `yet-another-react-lightbox` — image gallery
+- `uuid` — UUID generation
+- `camelcase-keys` — object key transformation
