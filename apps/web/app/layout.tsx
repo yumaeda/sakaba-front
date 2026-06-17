@@ -2,6 +2,7 @@ import './globals.css'
 import '@/scss/index.scss'
 import type { Metadata } from 'next'
 import Footer from '../components/Footer'
+import { PhotoCacheProvider } from '../components/PhotoCacheContext'
 
 export const metadata: Metadata = {
   title: '酒場 s',
@@ -16,9 +17,11 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className="body">
-        {children}
+        <PhotoCacheProvider>
+           {children}
+         </PhotoCacheProvider>
         <Footer />
-      </body>
-    </html>
-  )
+       </body>
+     </html>
+   )
 }

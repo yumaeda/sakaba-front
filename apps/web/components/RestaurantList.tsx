@@ -2,7 +2,7 @@
  * @author Yukitaka Maeda [yumaeda@gmail.com]
  */
 import Restaurant from '@/interfaces/Restaurant'
-import { API_URL, IMG_URL } from '@/constants/Global'
+import { API_URL } from '@/constants/Global'
 import Address from './Address'
 import DishPhotoList from './DishPhotoList'
 import OpenHours from './OpenHours'
@@ -36,7 +36,7 @@ export default async function RestaurantList(props: Props) {
                                     <RestaurantPageLink id={restaurantId} area={openRestaurant.area} url={openRestaurant.url} name={openRestaurant.name} />
                                 </h4>
                             </div>
-                            <DishPhotoList basePath={IMG_URL} restaurantId={restaurantId} />
+                            <DishPhotoList restaurantId={restaurantId} area={openRestaurant.area} />
                             <div className="shop-info">
                                 <OpenHours businessDayJson={openRestaurant.businessDayInfo} />
                                 <span className="distance">{`${Number(openRestaurant.distance).toFixed(2)} km`}</span>
