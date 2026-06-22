@@ -17,13 +17,15 @@ interface Props {
 export default function DishPhotoList({ restaurantId }: Props) {
   const { getPhotos } = usePhotoCache()
   const [photos, setPhotos] = useState<any[]>([])
+  const [thumbnails, setThumbnails] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [open, setOpen] = useState(false)
   const [selectedSlideIndex, setSelectedSlideIndex] = useState<number>(0)
 
   useEffect(() => {
     getPhotos(restaurantId).then(data => {
-      setPhotos(data?.slice(0, 10) ?? [])
+      setThumbnails(data?.slice(0, 10) ?? [])
+      setPhotos(data ?? [])
       setLoading(false)
        }).catch(err => {
       console.error('Failed to fetch photos:', err)
@@ -58,7 +60,7 @@ export default function DishPhotoList({ restaurantId }: Props) {
         <>
           <div className="dish-photo-list-link">
             <div className="dish-image-list">
-              {photos.map((photo: any, index: number) => {
+              {thumbnails.map((photo: any, index: number) => {
              return (
                    <div key={index} className="dish-image-wrapper" onClick={() => handleClick(index)}>
                      <WebPImage

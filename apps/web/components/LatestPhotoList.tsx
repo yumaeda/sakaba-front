@@ -14,7 +14,7 @@ const LatestPhotoList: React.FC<Props> = (props) => {
   return (
          <div className="latest-image-container">
             {photos?.map((photo: Photo, index: number) => (
-              <div className="latest-image-wrapper">
+              <div className="latest-image-wrapper" key={index}>
                 <WebPImage
                   restaurantId={photo.restaurant_id}
                   thumbnail={photo.thumbnail}
