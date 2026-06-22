@@ -36,7 +36,7 @@ export default async function RestaurantList(props: Props) {
                                     <RestaurantPageLink id={restaurantId} area={openRestaurant.area} url={openRestaurant.url} name={openRestaurant.name} />
                                 </h4>
                             </div>
-                            <DishPhotoList restaurantId={restaurantId} area={openRestaurant.area} />
+                            <DishPhotoList restaurantId={restaurantId} />
                             <div className="shop-info">
                                 <OpenHours businessDayJson={openRestaurant.businessDayInfo} />
                                 <span className="distance">{`${Number(openRestaurant.distance).toFixed(2)} km`}</span>
