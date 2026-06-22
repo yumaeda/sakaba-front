@@ -40,7 +40,7 @@ export default function DishPhotoList({ restaurantId }: Props) {
 
   if (loading) {
     return (
-         <div className="dish-photo-list-link" onClick={() => handleClick(0)}>
+         <div className="dish-photo-list-link">
            <div className="dish-image-list">
              <div className="loading">写真を読み込んでいます...</div>
            </div>
