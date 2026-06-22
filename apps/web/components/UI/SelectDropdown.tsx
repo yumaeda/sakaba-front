@@ -37,7 +37,7 @@ const SelectDropdown: React.FC<SelectDropdownProps<any>> = (props) => {
   return (
       <select name={name} onChange={onChange} value={value} defaultValue={defaultValue}>
          {options.map((item, index: number) => (
-           <option value={useIdAsValue ? String(item.id) : item.name} key={index}>
+           <option value={useIdAsValue ? String(item.id) : (item.value ?? item.name)} key={index}>
              {item.name}
            </option>
          ))}
