@@ -6,7 +6,7 @@ import Restaurant from '@/interfaces/Restaurant'
 import camelcaseKeys from 'camelcase-keys'
 import { API_URL } from '@/constants/Global'
 import { getCookie } from '@/utils/CookieUtility'
-import { JWT_KEY } from '@/constants/CookieKeys'
+import { JWT_KEY } from '@/constants/StorageKeys'
 import SelectDropdown from '@/components/UI/SelectDropdown'
 
 interface AdminRestaurantSelectorProps {

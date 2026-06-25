@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import Link from 'next/link'
-import { JWT_KEY } from '@/constants/CookieKeys'
+import { JWT_KEY } from '@/constants/StorageKeys'
 import { API_URL } from '@/constants/Global'
 import Area from '@/interfaces/Area'
 import Genre from '@/interfaces/Genre'

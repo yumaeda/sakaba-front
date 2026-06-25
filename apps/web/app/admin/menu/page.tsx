@@ -8,9 +8,8 @@ import camelcaseKeys from 'camelcase-keys'
 import { API_URL } from '@/constants/Global'
 import { getCookie } from '@/utils/CookieUtility'
 import restaurantIdHash from '@/utils/RestaurantIdHash'
-import { JWT_KEY } from '@/constants/CookieKeys'
 import CategoryDropDown from '@/components/CategoryDropDown'
-import { USER_NAME_KEY } from '@/constants/LocalStorageKeys'
+import { USER_NAME_KEY, JWT_KEY } from '@/constants/StorageKeys'
 
 const MenuAdminPage: React.FC = () => {
   const [token, setToken] = useState<string>('')
