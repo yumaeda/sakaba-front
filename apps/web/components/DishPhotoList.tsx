@@ -10,6 +10,14 @@ import WebPImage from './UI/WebPImage'
 import Lightbox from 'yet-another-react-lightbox'
 import 'yet-another-react-lightbox/styles.css'
 
+// Preload first 3 photos for better initial load performance
+const preloadFirstThree = (restaurantImageDir: string, photos: any[]) => {
+  photos.slice(0, 3).forEach((photo) => {
+    const img = new Image()
+    img.src = `${restaurantImageDir}/${photo.image}`
+  })
+}
+
 interface Props {
   restaurantId: string
 }
@@ -22,16 +30,19 @@ export default function DishPhotoList({ restaurantId }: Props) {
   const [open, setOpen] = useState(false)
   const [selectedSlideIndex, setSelectedSlideIndex] = useState<number>(0)
 
+  const restaurantImageDir = `${IMG_URL}/images/restaurants/${restaurantId}`
+
   useEffect(() => {
     getPhotos(restaurantId).then(data => {
       setThumbnails(data?.slice(0, 10) ?? [])
       setPhotos(data ?? [])
+      preloadFirstThree(restaurantImageDir, data ?? [])
       setLoading(false)
        }).catch(err => {
       console.error('Failed to fetch photos:', err)
       setLoading(false)
        })
-      }, [restaurantId, getPhotos])
+      }, [restaurantId, getPhotos, restaurantImageDir])
 
   const handleClick = (index: number) => {
     setSelectedSlideIndex(index)
@@ -50,7 +61,6 @@ export default function DishPhotoList({ restaurantId }: Props) {
         )
       }
 
-  const restaurantImageDir = `${IMG_URL}/images/restaurants/${restaurantId}`
   const slides = photos.map((photo: any) => ({
     src: `${restaurantImageDir}/${photo.image}`,
     alt: photo.name || '店舗写真',
@@ -80,7 +90,7 @@ export default function DishPhotoList({ restaurantId }: Props) {
           close={() => setOpen(false)}
           slides={slides}
           index={selectedSlideIndex}
-          />
+           />
         </>
       )
 }
