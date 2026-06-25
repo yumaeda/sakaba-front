@@ -1,5 +1,7 @@
 import Link from 'next/link'
+import { cookies } from 'next/headers'
 import { API_URL } from '@/constants/Global'
+import { LATITUDE_KEY, LONGITUDE_KEY } from '@/constants/StorageKeys'
 import Dish from '@/interfaces/Dish'
 import Drink from '@/interfaces/Drink'
 import Genre from '@/interfaces/Genre'
@@ -11,8 +13,9 @@ const DEFAULT_LATITUDE = '35.761921'
 const DEFAULT_LONGITUDE = '139.7054278'
 
 export default async function HomePage() {
-  const latitude = DEFAULT_LATITUDE
-  const longitude = DEFAULT_LONGITUDE
+  const cookieStore = await cookies()
+  const latitude = cookieStore.get(LATITUDE_KEY)?.value || DEFAULT_LATITUDE
+  const longitude = cookieStore.get(LONGITUDE_KEY)?.value || DEFAULT_LONGITUDE
 
   let dishes: Dish[] = []
   let drinks: Drink[] = []
@@ -76,7 +79,7 @@ export default async function HomePage() {
                <h4 className="navigation-label">Area</h4>
                <ul className="navigation-list">
                  {restaurantInfos
-                   .map((info: RestaurantInfo) => (
+                    .map((info: RestaurantInfo) => (
                       <li className="navigation-item" key={info.area}>
                         <span>
                           <Link className="list-item" href={`/${info.area}/`}>{info.name}</Link>
@@ -90,34 +93,34 @@ export default async function HomePage() {
                      <li className="navigation-item" key={`drink-${drink.id}`}>
                        <span>
                          <Link className="list-item" href={`/drinks/${drink.id}/`}>{drink.name}</Link>
-                       </span>
-                     </li>
-                   ))}
-               </ul>
-               <h4 className="navigation-label">Genre</h4>
-               <ul className="navigation-list">
-                 {genres.map((genre: Genre) => (
-                      <li className="navigation-item" key={`genre-${genre.id}`}>
-                        <span>
-                          <Link className="list-item" href={`/genres/${genre.id}/`}>{genre.name}</Link>
                         </span>
-                       </li>
-                      ))}
-               </ul>
-               <h4 className="navigation-label">Dish</h4>
-               <ul className="navigation-list">
-                 {dishes.map((dish: Dish) => (
-                       <li className="navigation-item" key={`dish-${dish.id}`}>
+                      </li>
+                    ))}
+                </ul>
+               <h4 className="navigation-label">Genre</h4>
+                <ul className="navigation-list">
+                  {genres.map((genre: Genre) => (
+                       <li className="navigation-item" key={`genre-${genre.id}`}>
                          <span>
-                           <Link className="list-item" href={`/dishes/${dish.id}/`}>{dish.name}</Link>
+                           <Link className="list-item" href={`/genres/${genre.id}/`}>{genre.name}</Link>
                          </span>
                         </li>
-                        ))}
+                       ))}
+                </ul>
+               <h4 className="navigation-label">Dish</h4>
+                <ul className="navigation-list">
+                  {dishes.map((dish: Dish) => (
+                        <li className="navigation-item" key={`dish-${dish.id}`}>
+                          <span>
+                            <Link className="list-item" href={`/dishes/${dish.id}/`}>{dish.name}</Link>
+                          </span>
+                         </li>
+                         ))}
                 </ul>
                 <p className="second-paragraph">
-                  <Link className="list-item" href="/ranking">フードランキング</Link>
-                </p>
-              </div>
-            </>
-          )
-       }
+                   <Link className="list-item" href="/ranking">フードランキング</Link>
+                 </p>
+               </div>
+             </>
+           )
+        }

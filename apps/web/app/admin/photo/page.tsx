@@ -6,7 +6,7 @@ import camelcaseKeys from 'camelcase-keys'
 import Link from 'next/link'
 import { API_URL } from '@/constants/Global'
 import { getCookie } from '@/utils/CookieUtility'
-import { JWT_KEY } from '@/constants/CookieKeys'
+import { JWT_KEY } from '@/constants/StorageKeys'
 import RestaurantDropdown from '@/components/RestaurantDropdown'
 
 const PhotoAdminPage: React.FC = () => {

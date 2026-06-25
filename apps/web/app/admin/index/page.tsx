@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { cookies } from 'next/headers'
-import { JWT_KEY } from '@/constants/CookieKeys'
+import { JWT_KEY } from '@/constants/StorageKeys'
 import { jwtDecode } from 'jwt-decode'
 import JwtPayload from '@/interfaces/JwtPayload'
 

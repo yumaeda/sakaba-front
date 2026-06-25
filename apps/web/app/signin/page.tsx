@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { API_URL } from '../../constants/Global'
-import { USER_NAME_KEY } from '../../constants/LocalStorageKeys'
+import { USER_NAME_KEY } from '../../constants/StorageKeys'
 import { jwtDecode } from 'jwt-decode'
 import JwtPayload from '../../interfaces/JwtPayload'
 

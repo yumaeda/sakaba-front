@@ -3,7 +3,7 @@
  */
 import { useState, useEffect } from 'react'
 import { getCookie } from '@/utils/CookieUtility'
-import { JWT_KEY } from '@/constants/CookieKeys'
+import { JWT_KEY } from '@/constants/StorageKeys'
 
 export const useAuth = () => {
   const [token, setToken] = useState<string>('')
