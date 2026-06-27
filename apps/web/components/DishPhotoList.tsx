@@ -9,14 +9,6 @@ import WebPImage from './UI/WebPImage'
 import Lightbox from 'yet-another-react-lightbox'
 import 'yet-another-react-lightbox/styles.css'
 
-// Preload all full-size images so clicking any thumbnail shows instantly
-const preloadAllPhotos = (restaurantImageDir: string, photos: any[]) => {
-  photos.forEach((photo) => {
-    const img = new Image()
-    img.src = `${restaurantImageDir}/${photo.image}`
-  })
-}
-
 interface Props {
   restaurantId: string
 }
@@ -37,9 +29,8 @@ export default function DishPhotoList({ restaurantId }: Props) {
        .then(res => res.json())
        .then(data => {
         const photos = JSON.parse(JSON.stringify(data.body))
-        setThumbnails(photos?.slice(0, 10) ?? [])
+        setThumbnails(photos?.slice(0, 5) ?? [])
         setPhotos(photos ?? [])
-        preloadAllPhotos(restaurantImageDir, photos ?? [])
         setLoading(false)
        }).catch(err => {
       console.error('Failed to fetch photos:', err)
