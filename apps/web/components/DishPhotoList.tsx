@@ -4,26 +4,16 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { usePhotoCache } from './PhotoCacheContext'
-import { IMG_URL } from '@/constants/Global'
+import { API_URL, IMG_URL } from '@/constants/Global'
 import WebPImage from './UI/WebPImage'
 import Lightbox from 'yet-another-react-lightbox'
 import 'yet-another-react-lightbox/styles.css'
-
-// Preload first 3 photos for better initial load performance
-const preloadFirstThree = (restaurantImageDir: string, photos: any[]) => {
-  photos.slice(0, 3).forEach((photo) => {
-    const img = new Image()
-    img.src = `${restaurantImageDir}/${photo.image}`
-  })
-}
 
 interface Props {
   restaurantId: string
 }
 
 export default function DishPhotoList({ restaurantId }: Props) {
-  const { getPhotos } = usePhotoCache()
   const [photos, setPhotos] = useState<any[]>([])
   const [thumbnails, setThumbnails] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
@@ -33,16 +23,20 @@ export default function DishPhotoList({ restaurantId }: Props) {
   const restaurantImageDir = `${IMG_URL}/images/restaurants/${restaurantId}`
 
   useEffect(() => {
-    getPhotos(restaurantId).then(data => {
-      setThumbnails(data?.slice(0, 10) ?? [])
-      setPhotos(data ?? [])
-      preloadFirstThree(restaurantImageDir, data ?? [])
-      setLoading(false)
+    fetch(`${API_URL}/photos/${restaurantId}`, {
+      headers: {}
+     })
+       .then(res => res.json())
+       .then(data => {
+        const photos = JSON.parse(JSON.stringify(data.body))
+        setThumbnails(photos?.slice(0, 5) ?? [])
+        setPhotos(photos ?? [])
+        setLoading(false)
        }).catch(err => {
       console.error('Failed to fetch photos:', err)
       setLoading(false)
        })
-      }, [restaurantId, getPhotos, restaurantImageDir])
+      }, [restaurantId, restaurantImageDir])
 
   const handleClick = (index: number) => {
     setSelectedSlideIndex(index)
