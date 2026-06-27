@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from 'react'
 import { API_URL, IMG_URL } from '@/constants/Global'
+import Photo from '@/interfaces/Photo'
 import WebPImage from './UI/WebPImage'
 import Lightbox from 'yet-another-react-lightbox'
 import 'yet-another-react-lightbox/styles.css'
@@ -14,8 +15,8 @@ interface Props {
 }
 
 export default function DishPhotoList({ restaurantId }: Props) {
-  const [photos, setPhotos] = useState<any[]>([])
-  const [thumbnails, setThumbnails] = useState<any[]>([])
+  const [photos, setPhotos] = useState<Photo[]>([])
+  const [thumbnails, setThumbnails] = useState<Photo[]>([])
   const [loading, setLoading] = useState(true)
   const [open, setOpen] = useState(false)
   const [selectedSlideIndex, setSelectedSlideIndex] = useState<number>(0)
@@ -55,8 +56,10 @@ export default function DishPhotoList({ restaurantId }: Props) {
         )
       }
 
-  const slides = photos.map((photo: any) => ({
-    src: `${restaurantImageDir}/${photo.image}`,
+  const slides = photos.map((photo: Photo) => ({
+    src: `${restaurantImageDir}/${photo.image_webp}`,
+    width: 1478,
+    height: 1108,
     alt: photo.name || '店舗写真',
     }))
 
@@ -64,7 +67,7 @@ export default function DishPhotoList({ restaurantId }: Props) {
         <>
           <div className="dish-photo-list-link">
             <div className="dish-image-list">
-              {thumbnails.map((photo: any, index: number) => {
+              {thumbnails.map((photo: Photo, index: number) => {
              return (
                    <div key={index} className="dish-image-wrapper" onClick={() => handleClick(index)}>
                      <WebPImage
