@@ -1,17 +1,20 @@
 import Restaurant from '@/interfaces/Restaurant'
 import { API_URL, BASE_LATITUDE, BASE_LONGITUDE } from '@/constants/Global'
+import { LATITUDE_KEY, LONGITUDE_KEY } from '@/constants/StorageKeys'
 import RestaurantList from '@/components/RestaurantList'
 import Link from 'next/link'
+import { cookies } from 'next/headers'
 
 interface PageProps {
   params: Promise<{ area?: string }>
 }
 
 export default async function AreaPage({ params }: PageProps) {
+  const cookieStore = await cookies()
+  const latitude = cookieStore.get(LATITUDE_KEY)?.value || BASE_LATITUDE
+  const longitude = cookieStore.get(LONGITUDE_KEY)?.value || BASE_LONGITUDE
   const resolvedParams = await params
   const area = resolvedParams?.area || ''
-  const latitude = BASE_LATITUDE
-  const longitude = BASE_LONGITUDE
 
   let restaurants: Restaurant[] = []
   let error: Error | undefined

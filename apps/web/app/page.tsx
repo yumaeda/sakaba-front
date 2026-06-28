@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { cookies } from 'next/headers'
-import { API_URL } from '@/constants/Global'
+import { API_URL, BASE_LATITUDE, BASE_LONGITUDE } from '@/constants/Global'
 import { LATITUDE_KEY, LONGITUDE_KEY } from '@/constants/StorageKeys'
 import Dish from '@/interfaces/Dish'
 import Drink from '@/interfaces/Drink'
@@ -9,13 +9,10 @@ import Photo from '@/interfaces/Photo'
 import RestaurantInfo from '@/interfaces/RestaurantInfo'
 import LatestPhotoList from '@/components/LatestPhotoList'
 
-const DEFAULT_LATITUDE = '35.761921'
-const DEFAULT_LONGITUDE = '139.7054278'
-
 export default async function HomePage() {
   const cookieStore = await cookies()
-  const latitude = cookieStore.get(LATITUDE_KEY)?.value || DEFAULT_LATITUDE
-  const longitude = cookieStore.get(LONGITUDE_KEY)?.value || DEFAULT_LONGITUDE
+  const latitude = cookieStore.get(LATITUDE_KEY)?.value || BASE_LATITUDE
+  const longitude = cookieStore.get(LONGITUDE_KEY)?.value || BASE_LONGITUDE
 
   let dishes: Dish[] = []
   let drinks: Drink[] = []
