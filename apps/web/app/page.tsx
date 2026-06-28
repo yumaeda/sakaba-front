@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { cookies } from 'next/headers'
-import { API_URL, BASE_LATITUDE, BASE_LONGITUDE, IMG_URL } from '@/constants/Global'
+import { API_URL, BASE_LATITUDE, BASE_LONGITUDE } from '@/constants/Global'
 import { LATITUDE_KEY, LONGITUDE_KEY } from '@/constants/StorageKeys'
 import Dish from '@/interfaces/Dish'
 import Drink from '@/interfaces/Drink'
