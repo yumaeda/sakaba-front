@@ -16,46 +16,58 @@ export default async function AreaPage({ params }: PageProps) {
   const resolvedParams = await params
   const area = resolvedParams?.area || ''
 
+  const areaStyle = area === 'motohasunuma' ? {
+    backgroundImage: `url(/images/motohasunuma.png)`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+   } : area === 'itabashi-honcho' ? {
+    backgroundImage: `url(/images/itabashi-honcho.png)`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+   } : undefined
+
   let restaurants: Restaurant[] = []
   let error: Error | undefined
 
   try {
     const res = await fetch(`${API_URL}/restaurants/areas/${area}/${latitude}/${longitude}`, {
       headers: {},
-        })
+         })
     const data = await res.json()
     restaurants = JSON.parse(JSON.stringify(data.body))
-      } catch (e) {
+       } catch (e) {
     error = e as Error
-      }
+       }
 
   if (error) {
     return (
+               <>
+                 <header className="header" style={areaStyle}>
+                     <p className="header-label">{area}</p>
+                     <Link href="/">
+                       <span className="list-item">Back</span>
+                     </Link>
+                   </header>
+                   <div className="contents">
+                     <div>Error: {error.message}</div>
+                   </div>
+                 </>
+               )
+             }
+
+  return (
               <>
-                <header className="header">
+                <header className="header" style={areaStyle}>
                     <p className="header-label">{area}</p>
                     <Link href="/">
                       <span className="list-item">Back</span>
                     </Link>
                   </header>
                   <div className="contents">
-                    <div>Error: {error.message}</div>
+                    <RestaurantList restaurants={restaurants} />
                   </div>
                 </>
               )
             }
-
-  return (
-             <>
-               <header className="header">
-                   <p className="header-label">{area}</p>
-                   <Link href="/">
-                     <span className="list-item">Back</span>
-                   </Link>
-                 </header>
-                 <div className="contents">
-                   <RestaurantList restaurants={restaurants} />
-                 </div>
-               </>
-             )
-           }
