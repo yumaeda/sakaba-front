@@ -88,6 +88,11 @@ export default async function HomePage() {
                                backgroundSize: 'cover',
                                backgroundPosition: 'center',
                                backgroundRepeat: 'no-repeat',
+                                 } : info.area === 'nakaitabashi' ? {
+                                 backgroundImage: `url(/images/nakaitabashi.png)`,
+                                 backgroundSize: 'cover',
+                                 backgroundPosition: 'center',
+                                 backgroundRepeat: 'no-repeat',
                                  } : undefined}>
                           <span>
                             <Link className="list-item" href={`/${info.area}/`}>{info.name}</Link>

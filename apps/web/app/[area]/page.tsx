@@ -21,6 +21,11 @@ export default async function AreaPage({ params }: PageProps) {
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
+   } : area === 'nakaitabashi' ? {
+    backgroundImage: `url(/images/nakaitabashi.png)`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
    } : area === 'itabashi-honcho' ? {
     backgroundImage: `url(/images/itabashi-honcho.png)`,
     backgroundSize: 'cover',
