@@ -103,7 +103,40 @@ export default async function HomePage() {
                  <h4 className="navigation-label">Drink</h4>
                  <ul className="navigation-list">
                    {drinks.map((drink: Drink) => (
-                       <li className="navigation-item" key={`drink-${drink.id}`}>
+                           <li className="navigation-item" key={`drink-${drink.id}`}
+                           style={
+                             drink.id === 1 ? {
+                               backgroundImage: `url(/images/hakushu.png)`,
+                               backgroundSize: 'cover',
+                               backgroundPosition: 'center',
+                               backgroundRepeat: 'no-repeat',
+                                  } : drink.id === 2 ? {
+                               backgroundImage: `url(/images/yamazaki.png)`,
+                               backgroundSize: 'cover',
+                               backgroundPosition: 'center',
+                               backgroundRepeat: 'no-repeat',
+                                  } : drink.id === 3 ? {
+                               backgroundImage: `url(/images/yoichi.png)`,
+                               backgroundSize: 'cover',
+                               backgroundPosition: 'center',
+                               backgroundRepeat: 'no-repeat',
+                                  } : drink.id === 4 ? {
+                               backgroundImage: `url(/images/taketsuru.png)`,
+                               backgroundSize: 'cover',
+                               backgroundPosition: 'center',
+                               backgroundRepeat: 'no-repeat',
+                                  } : drink.id === 5 ? {
+                               backgroundImage: `url(/images/hibiki.png)`,
+                               backgroundSize: 'cover',
+                               backgroundPosition: 'center',
+                               backgroundRepeat: 'no-repeat',
+                                  } : drink.id === 6 ? {
+                               backgroundImage: `url(/images/chita.png)`,
+                               backgroundSize: 'cover',
+                               backgroundPosition: 'center',
+                               backgroundRepeat: 'no-repeat',
+                                  } : undefined}
+                              >
                          <span>
                            <Link className="list-item" href={`/drinks/${drink.id}/`}>{drink.name}</Link>
                           </span>
