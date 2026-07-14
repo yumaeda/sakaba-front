@@ -20,46 +20,64 @@ export default async function DrinksPage({ params }: PageProps) {
   try {
     const restaurantsRes = await fetch(`${API_URL}/restaurants/drinks/${drinkId}/${BASE_LATITUDE}/${BASE_LONGITUDE}`, {
       headers: {},
-         })
+            })
     const data = await restaurantsRes.json()
     restaurants = JSON.parse(JSON.stringify(data.body))
 
     const drinkRes = await fetch(`${API_URL}/drinks/${id}`, {
       headers: {}
-         })
+            })
     const drinkData = await drinkRes.json()
     drink = JSON.parse(JSON.stringify(drinkData.body))
-        } catch (e) {
+         } catch (e) {
     error = e as Error
-       }
+         }
 
   if (error) {
     return (
-            <>
-              <header className="header">
-                  <p className="header-label">{drink.name}</p>
-                  <Link href="/">
-                    <span className="list-item">Back</span>
-                  </Link>
-                </header>
-                <div className="contents">
-                  <div>Error: {error.message}</div>
-                </div>
-              </>
-             )
-            }
+               <>
+                 <header className="header">
+                     <p className="header-label">{drink.name}</p>
+                     <Link href="/">
+                       <span className="list-item">Back</span>
+                     </Link>
+                   </header>
+                   <div className="contents">
+                     <div>Error: {error.message}</div>
+                   </div>
+                 </>
+                )
+               }
+
+  const drinkImages: Record<number, string> = {
+    1: 'hakushu',
+    2: 'yamazaki',
+    3: 'yoichi',
+    4: 'taketsuru',
+    5: 'hibiki',
+    6: 'chita',
+    }
+
+  const drinkStyle = drinkImages[drinkId]
+     ? {
+        backgroundImage: `url(/images/${drinkImages[drinkId]}.png)`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        }
+     : undefined
 
   return (
-             <>
-               <header className="header">
-                   <p className="header-label">{drink.name}</p>
-                   <Link href="/">
-                     <span className="list-item">Back</span>
-                   </Link>
-                 </header>
-                 <div className="contents">
-                   <RestaurantList restaurants={restaurants} />
-                 </div>
-               </>
+               <>
+                 <header className="header" style={drinkStyle}>
+                     <p className="header-label">{drink.name}</p>
+                     <Link href="/">
+                       <span className="list-item">Back</span>
+                     </Link>
+                   </header>
+                   <div className="contents">
+                     <RestaurantList restaurants={restaurants} />
+                   </div>
+                 </>
               )
             }
