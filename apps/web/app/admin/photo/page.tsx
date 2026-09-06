@@ -1,34 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import Restaurant from '@/interfaces/Restaurant'
-import camelcaseKeys from 'camelcase-keys'
+import { useState } from 'react'
 import Link from 'next/link'
-import { API_URL } from '@/constants/Global'
-import { getCookie } from '@/utils/CookieUtility'
-import { JWT_KEY } from '@/constants/StorageKeys'
-import RestaurantDropdown from '@/components/RestaurantDropdown'
+import AdminRestaurantSelector from '../components/AdminRestaurantSelector'
 
 const PhotoAdminPage: React.FC = () => {
-  const [token, setToken] = useState<string>('')
-  const [disable, setDisable] = useState<boolean>(false)
   const [files, setFiles] = useState<FileList>()
-  const [restaurants, setRestaurants] = useState<Restaurant[]>([])
   const [restaurantId, setRestaurantId] = useState<string>('')
-
-  useEffect(() => {
-    setToken(getCookie(JWT_KEY))
-    fetch(`${API_URL}/restaurants/`, { headers: {} })
-      .then(res => res.json())
-      .then((data) => {
-        const tmpRestaurants = camelcaseKeys(JSON.parse(JSON.stringify(data.body))) 
-        setRestaurantId(tmpRestaurants[0].id)
-        setRestaurants(tmpRestaurants)
-      })
-      .catch(error => {
-        alert(`Error: ${JSON.stringify(error)}`)
-      })
-  }, [])
+  const [disable, setDisable] = useState<boolean>(false)
 
   const getBase64 = (file: File) => {
     return new Promise((resolve, reject) => {
@@ -45,20 +24,14 @@ const PhotoAdminPage: React.FC = () => {
     }
   }
 
-  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setRestaurantId(event.currentTarget.value)
-  }
-
-  const handleSubmit = (event: React.SyntheticEvent) => {
+  const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault()
 
-    if (token === '') {
-      alert('Token is expired or invalid!')
-      return
-    }
+    if (disable) return
 
     if (files == null || files.length === 0) {
       alert('Please choose files to upload!')
+      setDisable(false)
       return
     }
 
@@ -69,21 +42,22 @@ const PhotoAdminPage: React.FC = () => {
           restaurant_id: restaurantId,
           file_content: String(base64),
         }
-        const postOptions: RequestInit = {
+        fetch('/api/auth/photo/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
           },
           body: JSON.stringify(restaurant_photo),
-        }
-        fetch(`${API_URL}/auth/photo/`, postOptions)
+        })
           .then(res => res.json())
           .then(data => {
             console.dir(data)
           })
           .catch(error => {
-              alert(`Error: ${JSON.stringify(error)}`)
+            alert(`Error: ${JSON.stringify(error)}`)
+          })
+          .finally(() => {
+            setDisable(false)
           })
       })
     })
@@ -96,11 +70,14 @@ const PhotoAdminPage: React.FC = () => {
         <Link href="/admin/index">Home</Link>
       </header>
       <div className="admin-contents">
-        <RestaurantDropdown onSelect={handleSelect} restaurantId={restaurantId} restaurants={restaurants} />
+        <AdminRestaurantSelector
+          onRestaurantSelect={setRestaurantId}
+          onFormSubmit={handleSubmit}
+          submitButtonText="Upload"
+        />
         <br />
         <div>
           <input className="admin-input" type="file" onChange={handleChange} multiple />
-          <button className="admin-button" type="submit" onClick={handleSubmit} disabled={disable}>Upload</button>
         </div>
       </div>
     </>

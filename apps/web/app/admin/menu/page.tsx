@@ -6,13 +6,11 @@ import Menu from '@/interfaces/Menu'
 import { v4 as uuidv4 } from 'uuid'
 import camelcaseKeys from 'camelcase-keys'
 import { API_URL } from '@/constants/Global'
-import { getCookie } from '@/utils/CookieUtility'
 import restaurantIdHash from '@/utils/RestaurantIdHash'
 import CategoryDropDown from '@/components/CategoryDropDown'
-import { USER_NAME_KEY, JWT_KEY } from '@/constants/StorageKeys'
+import { USER_NAME_KEY } from '@/constants/StorageKeys'
 
 const MenuAdminPage: React.FC = () => {
-  const [token, setToken] = useState<string>('')
   const [categories, setCategories] = useState<Category[]>([])
   const [menus, setMenus] = useState<Menu[]>([])
   const [menuId, setMenuId] = useState<string>('')
@@ -21,7 +19,6 @@ const MenuAdminPage: React.FC = () => {
   const restaurantId = restaurantIdHash[userIdKey || '']
 
   useEffect(() => {
-    setToken(getCookie(JWT_KEY))
     fetch(`${API_URL}/categories/${restaurantId}`, {
       headers: {},
         })
@@ -64,21 +61,18 @@ const MenuAdminPage: React.FC = () => {
       is_hidden: 0,
     }
 
-    const postOptions: RequestInit = {
+    fetch('/api/auth/menu/', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify(emptyMenu),
-    }
-    fetch(`${API_URL}/auth/menu/`, postOptions)
-       .then((res) => res.json())
-       .then((data) => {
+    }).then((res) => res.json())
+      .then((data) => {
         console.dir(data)
         setMenus([camelcaseKeys(emptyMenu), ...menus])
         window.scroll(0, 0)
-    })
+      })
   }
 
   const findMenuIndexById = (id: string): number => {
@@ -86,18 +80,15 @@ const MenuAdminPage: React.FC = () => {
   }
 
   const handleDeleteMenu = () => {
-    const deleteOptions: RequestInit = {
+    fetch('/api/auth/menu/', {
       method: 'DELETE',
       headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-         },
+      },
       body: JSON.stringify({
          id: menuId,
          }),
-    }
-    fetch(`${API_URL}/auth/menu/`, deleteOptions)
-      .then((res) => res.json())
+    })
       .then(() => {
         const newMenus = [...menus]
         newMenus.splice(menuIndex, 1)
@@ -112,20 +103,17 @@ const MenuAdminPage: React.FC = () => {
   }
 
   const updateMenu = (column: string, value: string) => {
-    const postOptions: RequestInit = {
+    fetch('/api/auth/menu/', {
       method: 'PUT',
       headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-         },
+      },
       body: JSON.stringify({
          id: menuId,
           column,
           value,
          }),
-         }
-    fetch(`${API_URL}/auth/menu/`, postOptions)
-       .then((res) => res.json())
+         })
        .then(() => {
         let newMenu: Menu = {
            ...menus[menuIndex],
@@ -154,22 +142,22 @@ const MenuAdminPage: React.FC = () => {
         const newMenus = [...menus]
         newMenus.splice(menuIndex, 1, newMenu)
         setMenus(newMenus)
-         })
-     }
+       })
+  }
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     updateMenu(
       event.currentTarget.getAttribute('name') || '',
       event.currentTarget.value,
         )
-     }
+  }
 
   const handleBlur = (event: React.FormEvent<HTMLInputElement>) => {
     updateMenu(
       event.currentTarget.getAttribute('name') || '',
       event.currentTarget.value,
         )
-     }
+  }
 
   return (
       <>

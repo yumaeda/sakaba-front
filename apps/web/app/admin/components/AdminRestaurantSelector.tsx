@@ -1,12 +1,9 @@
-/**
- * @author Yukitaka Maeda [yumaeda@gmail.com]
- */
-import { useState, useEffect } from 'react'
+'use client'
+
+import { useState, useEffect, useMemo } from 'react'
 import Restaurant from '@/interfaces/Restaurant'
 import camelcaseKeys from 'camelcase-keys'
 import { API_URL } from '@/constants/Global'
-import { getCookie } from '@/utils/CookieUtility'
-import { JWT_KEY } from '@/constants/StorageKeys'
 import SelectDropdown from '@/components/UI/SelectDropdown'
 
 interface AdminRestaurantSelectorProps {
@@ -14,6 +11,11 @@ interface AdminRestaurantSelectorProps {
   onFormSubmit?: (event: React.SyntheticEvent) => void
   submitButtonText?: string
   apiEndpoint?: string
+}
+
+interface AreaOption {
+  id: string
+  name: string
 }
 
 const AdminRestaurantSelector: React.FC<AdminRestaurantSelectorProps> = (props) => {
@@ -24,13 +26,30 @@ const AdminRestaurantSelector: React.FC<AdminRestaurantSelectorProps> = (props) 
     apiEndpoint,
    } = props
 
-  const [token, setToken] = useState<string>('')
   const [disable, setDisable] = useState(false)
   const [restaurants, setRestaurants] = useState<Restaurant[]>([])
   const [restaurantId, setRestaurantId] = useState<string>('')
+  const [selectedArea, setSelectedArea] = useState<string>('')
+
+  // Extract unique areas from restaurants
+  const areas: AreaOption[] = useMemo(() => {
+    const areaSet = new Set<string>()
+    return restaurants.reduce<AreaOption[]>((acc, restaurant) => {
+      if (restaurant.area && !areaSet.has(restaurant.area)) {
+        areaSet.add(restaurant.area)
+        acc.push({ id: restaurant.area, name: restaurant.area })
+      }
+      return acc
+    }, []).sort((a, b) => a.name.localeCompare(b.name, 'ja'))
+  }, [restaurants])
+
+  // Filter restaurants by selected area
+  const filteredRestaurants = useMemo(() => {
+    if (!selectedArea) return restaurants
+    return restaurants.filter(r => r.area === selectedArea)
+  }, [restaurants, selectedArea])
 
   useEffect(() => {
-    setToken(getCookie(JWT_KEY))
     fetch(`${API_URL}/restaurants/`, { headers: {} })
         .then(res => res.json())
         .then(
@@ -45,28 +64,32 @@ const AdminRestaurantSelector: React.FC<AdminRestaurantSelectorProps> = (props) 
          )
      }, [])
 
+  const handleAreaChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selected = event.currentTarget.value
+    setSelectedArea(selected)
+    // When area changes, try to select the first restaurant from the filtered list
+    const newFilteredRestaurants = selected
+      ? restaurants.filter(r => r.area === selected)
+      : restaurants
+    const firstId = newFilteredRestaurants.length > 0 ? newFilteredRestaurants[0].id : ''
+    setRestaurantId(firstId)
+    onRestaurantSelect(firstId)
+  }
+
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedId = event.currentTarget.value
     setRestaurantId(selectedId)
     onRestaurantSelect(selectedId)
-   }
+  }
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault()
-
-    if (token === '') {
-      alert('Token is expired or invalid!')
-      return
-     }
-
-    setDisable(true)
 
     if (apiEndpoint) {
       const postOptions: RequestInit = {
         method: 'POST',
         headers: {
            'Content-Type': 'application/json',
-           'Authorization': `Bearer ${token}`,
            },
         body: JSON.stringify({ restaurant_id: restaurantId }),
          }
@@ -82,21 +105,33 @@ const AdminRestaurantSelector: React.FC<AdminRestaurantSelectorProps> = (props) 
      }
 
     onFormSubmit?.(event)
-   }
+  }
 
   return (
      <>
+        <p style={{ marginBottom: '4px', fontWeight: 'bold' }}>エリア</p>
         <SelectDropdown
-         items={restaurants}
-         value={restaurantId}
-         onChange={handleSelect}
-        />
-         <br />
+          items={areas}
+          value={selectedArea}
+          onChange={handleAreaChange}
+          prependDefaultOption={true}
+          defaultOptionName='すべて'
+         />
+          <br />
+        <p style={{ marginBottom: '4px', fontWeight: 'bold' }}>店舗</p>
+        <SelectDropdown
+          items={filteredRestaurants}
+          value={restaurantId}
+          onChange={handleSelect}
+          prependDefaultOption={!selectedArea}
+          defaultOptionName='未選択'
+         />
+          <br />
          <button className="admin-button" type="submit" onClick={handleSubmit} disabled={disable}>
            {submitButtonText}
          </button>
        </>
      )
-}
+  }
 
 export default AdminRestaurantSelector
