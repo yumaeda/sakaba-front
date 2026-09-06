@@ -154,7 +154,7 @@ const usePhotoUpload = (options: UsePhotoUploadOptions): UsePhotoUploadReturn =>
             results.push({ file, success: false, error: errorMsg })
           }
 
-          xhr.timeout = 60000 // 60 second timeout
+          xhr.timeout = 300000 // 5 minute timeout
 
           xhr.send(uploadPayload)
         } catch (error: unknown) {
