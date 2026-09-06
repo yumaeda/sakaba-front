@@ -38,8 +38,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │       │   │   ├── login/
 │       │   │   ├── menus/
 │       │   │   ├── rankings/
-│       │   │   ├── restaurants/
-│       │   │   └── restaurant-counts/
+│       │   │   ├── restaurants/            # + /areas, /dishes, /drinks, /genres
+│       │   │   └── restaurant-counts/      # /[latitude]/[longitude]
 │       │   ├── components/           # Shared listing page component
 │       │   ├── dishes/               # Dish listing pages
 │       │   ├── drinks/               # Drink listing pages
@@ -47,7 +47,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │       │   ├── geolocation/          # Geolocation page
 │       │   ├── member/               # Member pages
 │       │   ├── ranking/              # Ranking pages
-│       │   ├── restaurant/           # Restaurant detail pages
 │       │   ├── signin/               # Sign-in pages
 │       │   ├── globals.css           # Global CSS
 │       │   ├── layout.tsx            # Root layout
@@ -71,8 +70,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │       │   ├── RestaurantPageLink.tsx
 │       │   ├── RestaurantVideoList.tsx
 │       │   └── RestaurantView.tsx
-│       ├── constants/              # API_URL, IMG_URL, cookie/localstorage keys
-│       │   ├── CookieKeys.ts
+│       ├── constants/              # API_URL, IMG_URL, WEB_URL, geolocation defaults, localstorage keys
 │       │   ├── Global.ts
 │       │   └── StorageKeys.ts
 │       ├── interfaces/             # TypeScript type definitions
@@ -105,8 +103,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │       │       ├── useAsyncData.ts
 │       │       ├── useAuth.ts
 │       │       └── useRestaurantList.ts
-│       ├── public/                 # Static assets
-│       └── package.json
+│       ├── public/                 # Static assets (dist/ compiled CSS, images/ area & drink-category background images)
+│       ├── Dockerfile              # Docker image (standalone Next.js build, non-root runtime)
+│       ├── next.config.js          # output: 'standalone', reactStrictMode, CloudFront image patterns
+│       ├── package.json
+│       └── tsconfig.json           # extends root tsconfig (project references)
 ├── turbo.json                        # Turborepo configuration
 ├── pnpm-workspace.yaml               # Workspace definition
 └── package.json                      # Root workspace manifest
@@ -114,7 +115,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Key Architecture Points
 
-- **Build**: Next.js 16 App Router with TypeScript. Output: static files to `.next/` directory.
+- **Build**: Next.js 16 App Router with TypeScript. `next.config.js` sets `output: 'standalone'` — `pnpm build` (Turborepo) produces a self-contained `.next/standalone` bundle, packaged for deployment by `apps/web/Dockerfile`.
 - **Routing**: File-based routing in `app/` directory. URL maps to file path (`/dishes/[id]` → `dishes/[id]/page.tsx`).
 - **Authentication**: JWT stored as HTTP-only cookie. Admin routes protected via API route handlers checking `Set-Cookie` header.
 - **API**: All API calls go to `https://api.sakabas.com`. Images served from CloudFront (`https://d1ds2m6k69pml3.cloudfront.net`). Web URL: `https://sakabas.com`.
@@ -143,15 +144,15 @@ pnpm run lint
 
 ## Deployment
 
-- **CI/CD**: GitHub Actions (`.github/workflows/`) triggers on push to `main`.
+- **CI/CD**: GitHub Actions (`.github/workflows/push-docker-image.yml`) triggers on push to `main`.
 - **Auth**: GCP Workload Identity Federation (no service account keys).
-- **Target**: Google Cloud Storage bucket `gs://sakabas.com/`.
-- **Deployed files**: `index.html`, `dist/index.min.js`, `dist/index.css`, `robots.txt`, `sitemap.xml`, `favicon.ico`.
+- **Target**: GCP Artifact Registry (us-central1), repository `sakabas-nextjs`, image `sakabas-nextjs:latest`.
+- **Build**: Multi-stage Docker build (`apps/web/Dockerfile`): node:22-alpine + pnpm + standalone Next.js build, runs as a non-root user serving `apps/web/server.js` on port 3000.
 
 ## TypeScript Configuration
 
-- Strict mode enabled (`strictNullChecks`, `noImplicitAny`, `noImplicitReturns`, `noUnusedLocals`, `noUnusedParameters`).
-- Target: ES5, JSX: react.
+- Root `tsconfig.json` (project references) enables `strict`; `apps/web/tsconfig.json` extends it and adds `strictNullChecks`, `noImplicitAny`, `noImplicitThis`, `noImplicitReturns`, `noUnusedLocals`, `noUnusedParameters`.
+- Target: ES5, JSX: preserve.
 - App Router pages: Server Components by default (async functions).
 
 ## Skills

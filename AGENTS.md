@@ -42,8 +42,8 @@ apps/
      │    │    ├── login/
      │    │    ├── menus/
      │    │    ├── rankings/
-     │    │    ├── restaurants/
-     │    │    └── restaurant-counts/
+     │    │    ├── restaurants/              # + /areas, /dishes, /drinks, /genres
+     │    │    └── restaurant-counts/        # /[latitude]/[longitude]
      │    ├── components/              # Shared listing page component
      │    ├── dishes/                  # Dish listing pages
      │    ├── drinks/                  # Drink listing pages
@@ -51,7 +51,6 @@ apps/
      │    ├── geolocation/             # Geolocation page
      │    ├── member/                  # Member pages
      │    ├── ranking/                 # Ranking pages
-     │    ├── restaurant/              # Restaurant detail pages
      │    ├── signin/                  # Sign-in pages
      │    ├── globals.css              # Global CSS
      │    ├── layout.tsx               # Root layout
@@ -79,8 +78,7 @@ apps/
      │         ├── LoadingSpinner.tsx
      │         ├── SelectDropdown.tsx
      │         └── WebPImage.tsx
-     ├── constants/                    # API_URL, IMG_URL, cookie/localstorage keys
-     │    ├── CookieKeys.ts
+     ├── constants/                    # API_URL, IMG_URL, WEB_URL, geolocation defaults, localstorage keys
      │    ├── Global.ts
      │    └── StorageKeys.ts
      ├── interfaces/                    # TypeScript type definitions
@@ -113,15 +111,18 @@ apps/
      │         ├── useAsyncData.ts
      │         ├── useAuth.ts
      │         └── useRestaurantList.ts
-     ├── public/                        # Static assets
-     └── package.json
+     ├── public/                        # Static assets (dist/ compiled CSS, images/ area & drink-category background images)
+     ├── Dockerfile                     # Docker image (standalone Next.js build, non-root runtime)
+     ├── next.config.js                 # output: 'standalone', reactStrictMode, CloudFront image patterns
+     ├── package.json
+     └── tsconfig.json                  # extends root tsconfig (project references)
 ```
 
 ## Development
 
 ### Prerequisites
-- Node.js 18+
-- pnpm (installed via `brew install pnpm`)
+- Node.js 18+ (Docker build uses Node 22)
+- pnpm 11.6.0 (via `brew install pnpm` or corepack)
 
 ### Setup
 ```bash
@@ -153,9 +154,10 @@ pnpm run lint
 - **Data fetching**: Native `fetch()` in server components, automatic caching/revalidation
 
 ## Deployment
-- Automatic deployment via GitHub Actions upon commit to `main` branch
-- Configuration in `.github/workflows/`
-- Target: Google Cloud Storage bucket `gs://sakabas.com/`
+- GitHub Actions (`.github/workflows/push-docker-image.yml`) on push to `main`
+- Builds the Docker image from `apps/web/Dockerfile` (multi-stage: pnpm + standalone Next.js build, non-root runtime user serving `apps/web/server.js` on port 3000)
+- Target: GCP Artifact Registry (us-central1), repository `sakabas-nextjs`, image `sakabas-nextjs:latest`
+- GCP auth: Workload Identity Federation (no service account keys)
 
 ## Code Style
 - TypeScript strict mode enabled
