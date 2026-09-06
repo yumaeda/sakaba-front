@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { API_URL, DOMAIN } from '@/constants/Global'
 
+const isSecure = (req: NextRequest): boolean => {
+  const origin = req.headers.get('origin') || ''
+  return origin.startsWith('https://')
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -15,11 +20,21 @@ export async function POST(request: NextRequest) {
 
     if (data.code === 200 && data.token) {
       const maxAge = 3600
-      // Set HTTP-only cookie so server components can read it via cookies()
+      const attributes: string[] = [
+        `Max-Age=${maxAge}`,
+        'Path=/',
+        'Http',
+        'SameSite=Lax',
+      ]
+      if (isSecure(request)) {
+        attributes.push('Secure')
+        attributes.push(`Domain=${DOMAIN}`)
+      }
+
       const response = NextResponse.json(data, { status: res.status })
       response.headers.set(
         'Set-Cookie',
-        `jwt=${data.token}; Max-Age=${maxAge}; Path=/; Http; Secure; SameSite=Lax; Domain=${DOMAIN}`,
+        `jwt=${data.token}; ${attributes.join('; ')}`,
       )
       return response
     }
