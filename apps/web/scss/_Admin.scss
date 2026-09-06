@@ -3,11 +3,14 @@
         color: white;
         text-align: center;
         margin: 0;
-        padding: 20px 0;
-    
+        padding: 16px 0;
+
         width: 100%;
         position: fixed;
         top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
 
         &-title {
             margin: 0;
@@ -16,7 +19,7 @@
 
     &-contents {
         text-align: center;
-        padding: 120px 40px 40px 40px;
+        padding: 100px 20px 40px 20px;
     }
 
     &-footer {
@@ -31,7 +34,8 @@
 
     &-button {
         width: 200px;
-        padding: 10px;
+        padding: 12px;
+        min-height: 44px;
         -webkit-appearance: none;
         background-color: darkred;
         color: whitesmoke;
@@ -192,9 +196,296 @@
     color: inherit;
 }
 
+/* Photo Upload Zone Styles */
+.photo-upload-zone {
+    margin-top: 20px;
+}
+
+.upload-zone {
+    border: 2px dashed #d1d5db;
+    border-radius: 12px;
+    padding: 32px 16px;
+    text-align: center;
+    background-color: #f9fafb;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+    &--dragover {
+        border-color: #6366f1;
+        background-color: #eef2ff;
+    }
+
+    &__icon {
+        margin-bottom: 12px;
+        color: #9ca3af;
+
+        svg {
+            width: 48px;
+            height: 48px;
+        }
+    }
+
+    &__title {
+        margin: 0 0 4px 0;
+        font-size: 1rem;
+        color: #374151;
+        font-weight: 600;
+        line-height: 1.4;
+    }
+
+    &__subtitle {
+        margin: 0 0 16px 0;
+        font-size: 0.8125rem;
+        color: #6b7280;
+    }
+
+    &__input {
+        display: none;
+    }
+
+    &__button {
+        display: inline-block;
+        min-width: 160px;
+        padding: 12px 24px;
+        background-color: #6366f1;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1.4;
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+        touch-action: manipulation;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+            background-color: #4f46e5;
+        }
+
+        &:focus-visible {
+            outline: 2px solid #6366f1;
+            outline-offset: 2px;
+        }
+
+        &:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+    }
+}
+
+.photo-upload-list {
+    margin-top: 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: white;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 0.85rem;
+        color: #6b7280;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    &__reset {
+        background: none;
+        border: none;
+        color: #ef4444;
+        font-size: 0.85rem;
+        cursor: pointer;
+        font-weight: 500;
+        padding: 8px 12px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-appearance: none;
+        appearance: none;
+        touch-action: manipulation;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &:focus-visible {
+            outline: 2px solid #ef4444;
+            outline-offset: 2px;
+        }
+    }
+}
+
+.photo-upload-progress {
+    margin-bottom: 12px;
+
+    &__bar {
+        width: 100%;
+        height: 8px;
+        background-color: #e5e7eb;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    &__fill {
+        height: 100%;
+        background-color: #6366f1;
+        border-radius: 4px;
+        transition: width 0.2s ease;
+    }
+
+    &__label {
+        display: block;
+        text-align: right;
+        font-size: 0.75rem;
+        color: #6b7280;
+        margin-top: 4px;
+    }
+}
+
+.photo-upload-item {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 0;
+    border-bottom: 1px solid #f3f4f6;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &--uploading {
+        // Default state
+    }
+
+    &--done {
+        // Success state color applied via inline style
+    }
+
+    &--error {
+        // Error state color applied via inline style
+    }
+
+    &__info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 4px;
+        gap: 8px;
+
+        @media (max-width: 480px) {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+        }
+    }
+
+    &__name {
+        font-size: 0.875rem;
+        color: #374151;
+        font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 200px;
+
+        @media (max-width: 480px) {
+            max-width: 100%;
+            text-align: left;
+        }
+    }
+
+    &__size {
+        font-size: 0.75rem;
+        color: #9ca3af;
+        flex-shrink: 0;
+
+        @media (max-width: 480px) {
+            flex-shrink: 1;
+        }
+    }
+
+    &__bar {
+        width: 100%;
+        height: 6px;
+        background-color: #e5e7eb;
+        border-radius: 3px;
+        overflow: hidden;
+        margin-top: 6px;
+    }
+
+    &__fill {
+        height: 100%;
+        border-radius: 3px;
+        transition: width 0.15s ease-out;
+    }
+
+    &__status {
+        font-size: 0.75rem;
+        text-align: right;
+        margin-top: 4px;
+        line-height: 1.4;
+    }
+
+    &__error {
+        display: block;
+        font-size: 0.75rem;
+        color: #ef4444;
+        margin-top: 4px;
+        line-height: 1.3;
+    }
+}
+
+
 .latest-photo-list-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     padding: 20px;
+}
+
+/* iPhone / Mobile viewport adjustments */
+@media (max-width: 640px) {
+    .admin {
+        &-header {
+            padding: 12px 0;
+
+            &-title {
+                font-size: 1.1rem;
+            }
+        }
+
+        &-contents {
+            padding: 80px 12px 32px 12px;
+        }
+    }
+
+    .upload-zone {
+        padding: 24px 12px;
+
+        &__button {
+            min-width: 200px;
+            width: 100%;
+        }
+    }
+
+    .photo-upload-list {
+        padding: 12px;
+    }
+
+    .photo-upload-item {
+        padding: 10px 0;
+    }
+
+    .photo-upload-item__name {
+        max-width: 100%;
+        text-align: left;
+    }
 }

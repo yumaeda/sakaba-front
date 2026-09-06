@@ -5,13 +5,13 @@ import Link from 'next/link'
 import { API_URL } from '@/constants/Global'
 import AdminRestaurantSelector from '../components/AdminRestaurantSelector'
 
+const API_ENDPOINT = `${API_URL}/auth/restaurant-genre/`
+
 const RestaurantGenreAdminPage: React.FC = () => {
   const [restaurantId, setRestaurantId] = useState<string>('')
   const [disable, setDisable] = useState(false)
 
-  const handleSubmit = (event: React.SyntheticEvent) => {
-    event.preventDefault()
-
+  const handleSubmit = () => {
     if (disable) return
 
     setDisable(true)
@@ -25,7 +25,7 @@ const RestaurantGenreAdminPage: React.FC = () => {
          },
       body: JSON.stringify({ restaurant_id: restaurantId }),
          }
-    fetch(`${API_URL}/auth/restaurant-genre/`, postOptions)
+    fetch(API_ENDPOINT, postOptions)
         .then(res => res.json())
         .then(() => {
          setDisable(false)
@@ -45,10 +45,16 @@ const RestaurantGenreAdminPage: React.FC = () => {
          <div className="admin-contents">
            <AdminRestaurantSelector
              onRestaurantSelect={setRestaurantId}
-             onFormSubmit={handleSubmit}
-             submitButtonText="登録"
-             apiEndpoint={`${API_URL}/auth/restaurant-genre/`}
              />
+           <div style={{ marginTop: '16px' }}>
+             <button
+               className="admin-button"
+               onClick={handleSubmit}
+               disabled={disable}
+             >
+               登録
+             </button>
+           </div>
           </div>
         </>
         )
