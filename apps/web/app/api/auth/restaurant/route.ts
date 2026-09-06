@@ -1,20 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { API_URL } from '@/constants/Global'
+import { getAuthToken } from '@/utils/HttpAuth'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
+    const authHeader = await getAuthToken()
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    }
+    if (authHeader) {
+      headers['Authorization'] = authHeader
+    }
     const res = await fetch(`${API_URL}/auth/restaurant/`, {
       method: 'POST',
-      headers: {
-         'Content-Type': 'application/json',
-         'Authorization': `Bearer ${request.headers.get('Authorization')?.replace('Bearer ', '')}`,
-         },
+      headers,
       body: JSON.stringify(body),
-            })
+    })
     const data = await res.json()
     return NextResponse.json(data, { status: res.status })
-    } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to create restaurant' }, { status: 500 })
-    }
+  }
 }

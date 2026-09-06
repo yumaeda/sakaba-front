@@ -2,16 +2,12 @@
 
 import * as React from 'react'
 import Link from 'next/link'
-import { JWT_KEY } from '@/constants/StorageKeys'
 import { API_URL } from '@/constants/Global'
 import Area from '@/interfaces/Area'
 import Genre from '@/interfaces/Genre'
-import { getCookie } from '@/utils/CookieUtility'
-import { getPostOption } from '@/utils/HttpUtility'
 import Dropdown from '@/components/Dropdown'
- 
+
 const RestaurantAdminPage: React.FC = () => {
-    const [token, setToken] = React.useState<string>('')
     const [url, setUrl] = React.useState<string>('')
     const [name, setName] = React.useState<string>('')
     const [genre, setGenre] = React.useState<number>(0)
@@ -30,7 +26,7 @@ const RestaurantAdminPage: React.FC = () => {
     const [thursdayInfo, setThursdayInfo] = React.useState<string>(businessDayString)
     const [fridayInfo, setFridayInfo] = React.useState<string>(businessDayString)
     const [saturdayInfo, setSaturdayInfo] = React.useState<string>(businessDayString)
- 
+
     const generateBusinessDayInfo = () : string => {
         const businessDayInfos = []
         if (sundayInfo && sundayInfo.length > 0) {
@@ -97,12 +93,6 @@ const RestaurantAdminPage: React.FC = () => {
     const handleSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault()
 
-        setToken(getCookie(JWT_KEY))
-        if (token == '') {
-            alert('Token is expired or invalid!')
-            return
-        }
-
         if (url === '' || name === '' && tel === '' || address === '' || area === '') {
             alert('Please fillout the required fields!')
             return
@@ -126,8 +116,13 @@ const RestaurantAdminPage: React.FC = () => {
                     longitude: `${longitude}`
                 }
 
-                const postOptions = getPostOption(token, restaurant)
-                fetch(`${API_URL}/auth/restaurant/`, postOptions)
+                fetch('/api/auth/restaurant/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(restaurant),
+                })
                     .then((res) => res.json())
                     .then((data) => {
                         alert(JSON.stringify(data))
@@ -138,8 +133,13 @@ const RestaurantAdminPage: React.FC = () => {
                                 genre_id: genre.toString()
                             }
 
-                            const genrePostOptions = getPostOption(token, restaurant_genre)
-                            fetch(`${API_URL}/auth/restaurant-genre/`, genrePostOptions)
+                            fetch('/api/auth/restaurant-genre/', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(restaurant_genre),
+                            })
                                 .then((res) => res.json())
                                 .then((data) => {
                                     alert(JSON.stringify(data))
@@ -150,8 +150,8 @@ const RestaurantAdminPage: React.FC = () => {
             (error: Error) => {
                 console.dir(error)
             })
-        }
- 
+    }
+
         return (
             <>
                 <header className="admin-header">
@@ -181,5 +181,5 @@ const RestaurantAdminPage: React.FC = () => {
             </>
      )
  }
- 
+
  export default RestaurantAdminPage

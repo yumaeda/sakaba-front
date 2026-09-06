@@ -5,23 +5,19 @@ import Restaurant from '@/interfaces/Restaurant'
 import camelcaseKeys from 'camelcase-keys'
 import Link from 'next/link'
 import { API_URL } from '@/constants/Global'
-import { getCookie } from '@/utils/CookieUtility'
-import { JWT_KEY } from '@/constants/StorageKeys'
 import RestaurantDropdown from '@/components/RestaurantDropdown'
 
 const PhotoAdminPage: React.FC = () => {
-  const [token, setToken] = useState<string>('')
   const [disable, setDisable] = useState<boolean>(false)
   const [files, setFiles] = useState<FileList>()
   const [restaurants, setRestaurants] = useState<Restaurant[]>([])
   const [restaurantId, setRestaurantId] = useState<string>('')
 
   useEffect(() => {
-    setToken(getCookie(JWT_KEY))
     fetch(`${API_URL}/restaurants/`, { headers: {} })
       .then(res => res.json())
       .then((data) => {
-        const tmpRestaurants = camelcaseKeys(JSON.parse(JSON.stringify(data.body))) 
+        const tmpRestaurants = camelcaseKeys(JSON.parse(JSON.stringify(data.body)))
         setRestaurantId(tmpRestaurants[0].id)
         setRestaurants(tmpRestaurants)
       })
@@ -52,11 +48,6 @@ const PhotoAdminPage: React.FC = () => {
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault()
 
-    if (token === '') {
-      alert('Token is expired or invalid!')
-      return
-    }
-
     if (files == null || files.length === 0) {
       alert('Please choose files to upload!')
       return
@@ -69,15 +60,13 @@ const PhotoAdminPage: React.FC = () => {
           restaurant_id: restaurantId,
           file_content: String(base64),
         }
-        const postOptions: RequestInit = {
+        fetch('/api/auth/photo/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
           },
           body: JSON.stringify(restaurant_photo),
-        }
-        fetch(`${API_URL}/auth/photo/`, postOptions)
+        })
           .then(res => res.json())
           .then(data => {
             console.dir(data)

@@ -4,6 +4,7 @@ packages:
   - 'packages/**'
   # if required, exclude directories
   - '!**/test/**'
+  - '!**/.next/**'
 allowBuilds:
   '@parcel/watcher': true
   esbuild: true
