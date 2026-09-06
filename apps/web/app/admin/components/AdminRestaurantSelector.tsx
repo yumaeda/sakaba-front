@@ -8,9 +8,6 @@ import SelectDropdown from '@/components/UI/SelectDropdown'
 
 interface AdminRestaurantSelectorProps {
   onRestaurantSelect: (restaurantId: string) => void
-  onFormSubmit?: (event: React.SyntheticEvent) => void
-  submitButtonText?: string
-  apiEndpoint?: string
 }
 
 interface AreaOption {
@@ -19,14 +16,8 @@ interface AreaOption {
 }
 
 const AdminRestaurantSelector: React.FC<AdminRestaurantSelectorProps> = (props) => {
-  const {
-    onRestaurantSelect,
-    onFormSubmit,
-    submitButtonText = '登録',
-    apiEndpoint,
-   } = props
+  const { onRestaurantSelect } = props
 
-  const [disable, setDisable] = useState(false)
   const [restaurants, setRestaurants] = useState<Restaurant[]>([])
   const [restaurantId, setRestaurantId] = useState<string>('')
   const [selectedArea, setSelectedArea] = useState<string>('')
@@ -82,56 +73,27 @@ const AdminRestaurantSelector: React.FC<AdminRestaurantSelectorProps> = (props) 
     onRestaurantSelect(selectedId)
   }
 
-  const handleSubmit = (event: React.SyntheticEvent) => {
-    event.preventDefault()
-
-    if (apiEndpoint) {
-      const postOptions: RequestInit = {
-        method: 'POST',
-        headers: {
-           'Content-Type': 'application/json',
-           },
-        body: JSON.stringify({ restaurant_id: restaurantId }),
-         }
-      fetch(apiEndpoint, postOptions)
-          .then(res => res.json())
-          .then(() => {
-            setDisable(false)
-           })
-          .catch(error => {
-            alert(`Error: ${JSON.stringify(error)}`)
-            setDisable(false)
-           })
-     }
-
-    onFormSubmit?.(event)
-  }
-
   return (
-     <>
-        <p style={{ marginBottom: '4px', fontWeight: 'bold' }}>エリア</p>
-        <SelectDropdown
-          items={areas}
-          value={selectedArea}
-          onChange={handleAreaChange}
-          prependDefaultOption={true}
-          defaultOptionName='すべて'
-         />
-          <br />
-        <p style={{ marginBottom: '4px', fontWeight: 'bold' }}>店舗</p>
-        <SelectDropdown
-          items={filteredRestaurants}
-          value={restaurantId}
-          onChange={handleSelect}
-          prependDefaultOption={!selectedArea}
-          defaultOptionName='未選択'
-         />
-          <br />
-         <button className="admin-button" type="submit" onClick={handleSubmit} disabled={disable}>
-           {submitButtonText}
-         </button>
-       </>
-     )
-  }
+    <>
+      <p style={{ marginBottom: '4px', fontWeight: 'bold' }}>エリア</p>
+      <SelectDropdown
+        items={areas}
+        value={selectedArea}
+        onChange={handleAreaChange}
+        prependDefaultOption={true}
+        defaultOptionName='すべて'
+      />
+      <br />
+      <p style={{ marginBottom: '4px', fontWeight: 'bold' }}>店舗</p>
+      <SelectDropdown
+        items={filteredRestaurants}
+        value={restaurantId}
+        onChange={handleSelect}
+        prependDefaultOption={!selectedArea}
+        defaultOptionName='未選択'
+      />
+    </>
+  )
+}
 
 export default AdminRestaurantSelector
