@@ -1,6 +1,11 @@
+---
+name: claude-code-guide
+description: Comprehensive guide for Claude Code working with the Sakaba Link (酒場 s) Next.js 16 project.
+---
+
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance for Claude Code (and other AI agents) when working with the Sakaba Link project.
 
 ## Project Overview
 
@@ -14,8 +19,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │       ├── app/                    # App Router (file-based routing)
 │       │   ├── [area]/               # Area listing pages
 │       │   │   └── [restaurant]/       # Restaurant detail within area
-│       │   ├── admin/                # Admin dashboard routes
+│       │   ├── admin/                # Admin dashboard (layout.tsx + pages)
 │       │   │   ├── components/         # Admin-specific components
+│       │   │   │   ├── AdminRestaurantSelector.tsx
+│       │   │   │   └── PhotoUploadZone.tsx
 │       │   │   ├── index/
 │       │   │   ├── menu/
 │       │   │   ├── photo/
@@ -23,36 +30,48 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │       │   │   ├── restaurant-drink/
 │       │   │   └── restaurant-genre/
 │       │   ├── api/                  # API routes
-│       │   │   ├── auth/               # Auth API routes
+│       │   │   ├── auth/               # Admin auth middleware routes
 │       │   │   │   ├── home/
 │       │   │   │   ├── menu/
+│       │   │   │   │   └── route/
 │       │   │   │   ├── photo/
+│       │   │   │   │   ├── route/
+│       │   │   │   │   └── select/
 │       │   │   │   ├── restaurant/
 │       │   │   │   ├── restaurant-drink/
-│       │   │   │   └── restaurant-genre/
+│       │   │   │   ├── restaurant-genre/
+│       │   │   │   └── verify/         # JWT token validation
 │       │   │   ├── categories/
+│       │   │   │   └── [restaurantId]/
 │       │   │   ├── dishes/
+│       │   │   │   └── route/
 │       │   │   ├── drinks/
+│       │   │   │   └── route/
 │       │   │   ├── genres/
+│       │   │   │   └── route/
 │       │   │   ├── latest-photos/
 │       │   │   ├── login/
-│       │   │   ├── menus/
 │       │   │   ├── rankings/
 │       │   │   ├── restaurants/            # + /areas, /dishes, /drinks, /genres
-│       │   │   └── restaurant-counts/      # /[latitude]/[longitude]
-│       │   ├── components/           # Shared listing page component
+│       │   │   │   └── route/
+│       │   │   └── restaurant-counts/      # /[latitude]/[longitude]/route.ts
+│       │   ├── components/           # Shared app-level components
+│       │   │   └── ListingPage.tsx
 │       │   ├── dishes/               # Dish listing pages
 │       │   ├── drinks/               # Drink listing pages
 │       │   ├── genres/               # Genre listing pages
 │       │   ├── geolocation/          # Geolocation page
 │       │   ├── member/               # Member pages
 │       │   ├── ranking/              # Ranking pages
-│       │   ├── signin/               # Sign-in pages
-│       │   ├── globals.css           # Global CSS
+│       │   ├── signin/               # Sign-in page
 │       │   ├── layout.tsx            # Root layout
 │       │   └── page.tsx              # Home page
-│       ├── components/               # React components
+│       ├── components/               # React UI components
 │       │   ├── UI/                   # UI subdirectory
+│       │   │   ├── IconLink.tsx
+│       │   │   ├── LoadingSpinner.tsx
+│       │   │   ├── SelectDropdown.tsx
+│       │   │   └── WebPImage.tsx
 │       │   ├── Address.tsx
 │       │   ├── CategoryDropDown.tsx
 │       │   ├── CategorySwitch.tsx
@@ -64,7 +83,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │       │   ├── MenuPrice.tsx
 │       │   ├── OpenHours.tsx
 │       │   ├── PhoneNumber.tsx
-│       │   ├── PhotoCacheContext.tsx
 │       │   ├── RestaurantDropdown.tsx
 │       │   ├── RestaurantList.tsx
 │       │   ├── RestaurantPageLink.tsx
@@ -97,8 +115,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │       ├── utils/                  # Utility functions
 │       │   ├── CookieUtility.ts
 │       │   ├── GeoLocationUtility.ts
+│       │   ├── HttpAuth.ts           # HTTP-only cookie → Bearer token
 │       │   ├── HttpUtility.ts
 │       │   ├── RestaurantIdHash.ts
+│       │   ├── usePhotoUpload.ts     # Custom photo upload hook
 │       │   └── hooks/
 │       │       ├── useAsyncData.ts
 │       │       ├── useAuth.ts
@@ -117,12 +137,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - **Build**: Next.js 16 App Router with TypeScript. `next.config.js` sets `output: 'standalone'` — `pnpm build` (Turborepo) produces a self-contained `.next/standalone` bundle, packaged for deployment by `apps/web/Dockerfile`.
 - **Routing**: File-based routing in `app/` directory. URL maps to file path (`/dishes/[id]` → `dishes/[id]/page.tsx`).
-- **Authentication**: JWT stored as HTTP-only cookie. Admin routes protected via API route handlers checking `Set-Cookie` header.
-- **API**: All API calls go to `https://api.sakabas.com`. Images served from CloudFront (`https://d1ds2m6k69pml3.cloudfront.net`). Web URL: `https://sakabas.com`.
 - **Server Components**: Default in `app/` directory (async functions). Use `'use client'` for interactivity.
 - **State**: Server components fetch data directly; client components use React hooks for UI state.
 - **Data fetching**: Native `fetch()` in server components with automatic caching. Client components use `useEffect` with `fetch()`.
-- **Utilities**: Shared utilities in `utils/` (CookieUtility, GeoLocationUtility, HttpUtility, RestaurantIdHash) and custom hooks in `utils/hooks/` (useAsyncData, useAuth, useRestaurantList).
+
+### Authentication
+
+- JWT stored as HTTP-only cookie (`JWT_KEY` from `constants/StorageKeys.ts`).
+- **Server-side auth**: `getAuthToken()` in `utils/HttpAuth.ts` is the single source of truth — it reads the cookie via `next/headers` and returns a `Bearer` token string. All admin API routes (`app/api/auth/*`) use this utility.
+- **Token verification**: `app/api/auth/verify/route.ts` validates JWT existence and expiration (returns 200 if valid, 401 if invalid/expired).
+- **Login**: `app/api/login/route.ts` handles authentication and sets the HTTP-only cookie.
+- **Client-side auth**: `utils/hooks/useAuth.ts` provides a React hook for checking auth state in client components.
+
+### Photo Upload
+
+- **Custom hook**: `usePhotoUpload` (`utils/usePhotoUpload.ts`) — XMLHttpRequest-based upload with real-time progress tracking, per-file state management, abort controller support, and 5-minute timeout per upload.
+- **Component**: `PhotoUploadZone` (`app/admin/components/PhotoUploadZone.tsx`) — drag-and-drop zone with per-file progress bars, status indicators, and file size formatting. Accepts `image/jpeg`, `image/png`, `image/webp`.
+- **API routes**: `app/api/auth/photo/route.ts` and `app/api/auth/photo/select/route.ts` handle photo CRUD.
 
 ## Commands
 
