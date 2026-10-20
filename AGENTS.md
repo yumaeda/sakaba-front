@@ -20,10 +20,12 @@ apps/
      │    │    └── [restaurant]/       # Restaurant detail within area
      │    ├── admin/                   # Admin dashboard routes
      │    │    ├── components/          # Admin-specific components
+     │    │    │    ├── AdminRestaurantSelector.tsx
+     │    │    │    └── PhotoUploadZone.tsx
      │    │    ├── index/               # Admin home
      │    │    ├── menu/                # Menu management
      │    │    ├── photo/               # Photo management
-     │    │    ├── restaurant/            # Restaurant management
+     │    │    ├── restaurant/          # Restaurant management
      │    │    ├── restaurant-drink/    # Drink management
      │    │    └── restaurant-genre/    # Genre management
      │    ├── api/                     # API routes
@@ -33,18 +35,17 @@ apps/
      │    │    │    ├── photo/
      │    │    │    ├── restaurant/
      │    │    │    ├── restaurant-drink/
-     │    │    │    └── restaurant-genre/
-     │    │    ├── categories/          # Category routes
+     │    │    │    ├── restaurant-genre/
+     │    │    │    └── verify/          # JWT token validation
      │    │    ├── dishes/
      │    │    ├── drinks/
      │    │    ├── genres/
      │    │    ├── latest-photos/
      │    │    ├── login/
-     │    │    ├── menus/
      │    │    ├── rankings/
-     │    │    ├── restaurants/              # + /areas, /dishes, /drinks, /genres
-     │    │    └── restaurant-counts/        # /[latitude]/[longitude]
-     │    ├── components/              # Shared listing page component
+     │    │    └── restaurants/
+     │    ├── components/              # Shared app-level components
+     │    │    └── ListingPage.tsx
      │    ├── dishes/                  # Dish listing pages
      │    ├── drinks/                  # Drink listing pages
      │    ├── genres/                  # Genre listing pages
@@ -52,7 +53,6 @@ apps/
      │    ├── member/                  # Member pages
      │    ├── ranking/                 # Ranking pages
      │    ├── signin/                  # Sign-in pages
-     │    ├── globals.css              # Global CSS
      │    ├── layout.tsx               # Root layout
      │    └── page.tsx                 # Home page
      ├── components/                    # React components
@@ -67,7 +67,6 @@ apps/
      │    ├── MenuPrice.tsx
      │    ├── OpenHours.tsx
      │    ├── PhoneNumber.tsx
-     │    ├── PhotoCacheContext.tsx
      │    ├── RestaurantDropdown.tsx
      │    ├── RestaurantList.tsx
      │    ├── RestaurantPageLink.tsx
@@ -105,8 +104,10 @@ apps/
      ├── utils/                         # Utility functions
      │    ├── CookieUtility.ts
      │    ├── GeoLocationUtility.ts
+     │    ├── HttpAuth.ts              # HTTP-only cookie → Bearer token
      │    ├── HttpUtility.ts
      │    ├── RestaurantIdHash.ts
+     │    ├── usePhotoUpload.ts        # Custom photo upload hook
      │    └── hooks/
      │         ├── useAsyncData.ts
      │         ├── useAuth.ts
@@ -147,11 +148,26 @@ pnpm run lint
 ```
 
 ## Architecture Notes
-- **Next.js App Router**: New routes live in `app/` directory with file-based routing
-- **Server Components**: Default component type in `app/` (async functions)
-- **Client Components**: Marked with `'use client'` directive for interactivity
-- **Admin API**: RESTful API routes in `app/api/` directory
-- **Data fetching**: Native `fetch()` in server components, automatic caching/revalidation
+
+### Authentication
+- JWT stored as HTTP-only cookie (key defined in `constants/StorageKeys.ts` as `JWT_KEY`).
+- **Server-side auth**: `utils/HttpAuth.ts` — reads the cookie via `next/headers` and returns a `Bearer` token. All admin API routes use this utility.
+- **Token verification**: `app/api/auth/verify/route.ts` validates JWT existence and expiration (returns 200 if valid, 401 if invalid/expired).
+- **Login**: `app/api/login/route.ts` handles authentication and sets the HTTP-only cookie.
+- **Client-side auth**: `utils/hooks/useAuth.ts` provides a React hook for checking auth state in client components.
+
+### Photo Upload
+- **Custom hook**: `usePhotoUpload` (`utils/usePhotoUpload.ts`) — XMLHttpRequest-based upload with real-time progress tracking, per-file state management, abort controller support, and timeout.
+- **Component**: `PhotoUploadZone` (`app/admin/components/PhotoUploadZone.tsx`) — drag-and-drop zone with per-file progress bars, status indicators, and file size formatting. Accepts `image/jpeg`, `image/png`, `image/webp`.
+- **API routes**: `app/api/auth/photo/route.ts` and `app/api/auth/photo/select/route.ts` handle photo CRUD.
+
+### Routing
+- File-based routing in `app/` directory. URL maps to file path (`/dishes/[id]` → `dishes/[id]/page.tsx`).
+- Server Components are the default in `app/` (async functions). Use `'use client'` for interactivity.
+
+### Data Fetching
+- Native `fetch()` in server components with automatic caching/revalidation.
+- Client components use `useEffect` with `fetch()` or custom hooks (`useAsyncData`, `useRestaurantList`).
 
 ## Deployment
 - GitHub Actions (`.github/workflows/push-docker-image.yml`) on push to `main`
@@ -161,6 +177,8 @@ pnpm run lint
 
 ## Code Style
 - TypeScript strict mode enabled
+- Root `tsconfig.json` (project references) enables `strict`; `apps/web/tsconfig.json` extends it with `strictNullChecks`, `noImplicitAny`, `noImplicitThis`, `noImplicitReturns`, `noUnusedLocals`, `noUnusedParameters`
+- Target: ES5, JSX: preserve
 - Next.js 16 App Router patterns (server components by default)
 - React functional components with hooks
 - Functional API routes in `app/api/`
@@ -170,3 +188,6 @@ pnpm run lint
 - `yet-another-react-lightbox` — image gallery
 - `uuid` — UUID generation
 - `camelcase-keys` — object key transformation
+- `react` (^19.2.6) — UI library
+- `react-dom` (^19.2.6) — DOM rendering
+- `next` (^16.2.7) — React framework with App Router
