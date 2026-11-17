@@ -13,14 +13,14 @@
      "jwt-decode": "^4.0.0",
      "next": "^16.4.5",
      "react": "^19.2.6",
-     "react-dom": "^19.2.6",
+     "react-dom": "^19.3.1",
      "uuid": "^7.0.3",
      "yet-another-react-lightbox": "^3.32.0"
    },
    "devDependencies": {
      "@types/node": "25.9.1",
      "@types/react": "^19.2.15",
-     "@types/react-dom": "^19.2.3",
+     "@types/react-dom": "^19.3.0",
      "@types/uuid": "^8.3.0",
      "sass": "^1.99.0",
      "typescript": "^6.0.3"
