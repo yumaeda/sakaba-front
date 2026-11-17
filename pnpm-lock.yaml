@@ -15,8 +15,8 @@ importers:
   apps/web:
     dependencies:
       camelcase-keys:
-        specifier: ^10.0.2
-        version: 10.0.2
+        specifier: ^10.0.3
+        version: 10.0.3
       jwt-decode:
         specifier: ^4.0.0
         version: 4.0.0
@@ -417,8 +417,8 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
-  camelcase-keys@10.0.2:
-    resolution: {integrity: sha512-PVHCLVbJ7nWGal0lPAmBN5eSLjIynlMUk2EPmL9aPl6QyJ6+FoszTKwldPzkuVqg5teZbPTbb8Oenzyw9GSJRw==}
+  camelcase-keys@10.0.3:
+    resolution: {integrity: sha512-+WSfgt7e6uZSWfEO9xdFmWEf/bwvA6lJY2mmj4U+N1MHY6h01jQUlZ2dyxnaL4dumg/cxXyRci1fKUtGQfX5+g==}
     engines: {node: '>=20'}
 
   camelcase@9.0.0:
@@ -572,8 +572,8 @@ packages:
     resolution: {integrity: sha512-AswgMPnpOoaVZHrrSBejETzEbuIA69OVGwfkHwfrY0A23VjWXBANzgq9+OymWOHAIArB7D1+1z498WY8fGg1Jw==}
     hasBin: true
 
-  type-fest@5.6.0:
-    resolution: {integrity: sha512-8ZiHFm91orbSAe2PSAiSVBVko18pbhbiB3U9GglSzF/zCGkR+rxpHx6sEMCUm4kxY4LjDIUGgCfUMtwfZfjfUA==}
+  type-fest@5.10.0:
+    resolution: {integrity: sha512-NoSdpq/WEiAg5sjmBkmV/hfxv6HJH4NqPNrqjtSO5CwRmpsDfaf4begxW34KdJykH/l1yHtwBWQkCRdoXO8mPA==}
     engines: {node: '>=20'}
 
   typescript@6.0.3:
@@ -842,12 +842,12 @@ snapshots:
 
   baseline-browser-mapping@2.11.38: {}
 
-  camelcase-keys@10.0.2:
+  camelcase-keys@10.0.3:
     dependencies:
       camelcase: 9.0.0
       map-obj: 6.0.0
       quick-lru: 7.3.0
-      type-fest: 5.6.0
+      type-fest: 5.10.0
 
   camelcase@9.0.0: {}
 
@@ -1000,7 +1000,7 @@ snapshots:
       '@turbo/windows-64': 2.10.12
       '@turbo/windows-arm64': 2.10.12
 
-  type-fest@5.6.0:
+  type-fest@5.10.0:
     dependencies:
       tagged-tag: 1.0.0
 
