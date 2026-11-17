@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM node:22-alpine AS builder
+FROM node:22-alpine3.24 AS builder
 
 WORKDIR /app
 
@@ -19,9 +19,12 @@ COPY . .
 RUN pnpm build
 
 # Stage 2: Production
-FROM node:22-alpine AS runner
+FROM node:22-alpine3.24 AS runner
 
 WORKDIR /app
+
+# Upgrade system packages to latest security fixes
+RUN apk upgrade
 
 # Create non-root user for security
 RUN addgroup --system --gid 1001 nodejs
