@@ -33,10 +33,9 @@ This file provides guidance for Claude Code (and other AI agents) when working w
 │       │   │   ├── auth/               # Admin auth middleware routes
 │       │   │   │   ├── home/
 │       │   │   │   ├── menu/
-│       │   │   │   │   └── route/
+│       │   │   │   │   └── route.ts        # Menu CRUD (route/ subdir is empty)
 │       │   │   │   ├── photo/
-│       │   │   │   │   ├── route/
-│       │   │   │   │   └── select/
+│       │   │   │   │   └── route.ts        # Photo CRUD (route/ and select/ subdirs are empty)
 │       │   │   │   ├── restaurant/
 │       │   │   │   ├── restaurant-drink/
 │       │   │   │   ├── restaurant-genre/
@@ -65,6 +64,7 @@ This file provides guidance for Claude Code (and other AI agents) when working w
 │       │   ├── ranking/              # Ranking pages
 │       │   ├── signin/               # Sign-in page
 │       │   ├── layout.tsx            # Root layout
+│       │   ├── globals.css           # Global styles (CSS)
 │       │   └── page.tsx              # Home page
 │       ├── components/               # React UI components
 │       │   ├── UI/                   # UI subdirectory

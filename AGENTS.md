@@ -31,8 +31,8 @@ apps/
      │    ├── api/                     # API routes
      │    │    ├── auth/                # Auth API routes
      │    │    │    ├── home/
-     │    │    │    ├── menu/
-     │    │    │    ├── photo/
+     │    │    │    ├── menu/route.ts      # Menu CRUD
+     │    │    │    ├── photo/route.ts     # Photo CRUD
      │    │    │    ├── restaurant/
      │    │    │    ├── restaurant-drink/
      │    │    │    ├── restaurant-genre/
@@ -53,6 +53,7 @@ apps/
      │    ├── member/                  # Member pages
      │    ├── ranking/                 # Ranking pages
      │    ├── signin/                  # Sign-in pages
+     │    ├── globals.css              # Global styles (CSS)
      │    ├── layout.tsx               # Root layout
      │    └── page.tsx                 # Home page
      ├── components/                    # React components
@@ -157,7 +158,7 @@ pnpm run lint
 - **Client-side auth**: `utils/hooks/useAuth.ts` provides a React hook for checking auth state in client components.
 
 ### Photo Upload
-- **Custom hook**: `usePhotoUpload` (`utils/usePhotoUpload.ts`) — XMLHttpRequest-based upload with real-time progress tracking, per-file state management, abort controller support, and timeout.
+- **Custom hook**: `usePhotoUpload` (`utils/usePhotoUpload.ts`) — XMLHttpRequest-based upload with real-time progress tracking, per-file state management, abort controller support, and 5-minute timeout per upload.
 - **Component**: `PhotoUploadZone` (`app/admin/components/PhotoUploadZone.tsx`) — drag-and-drop zone with per-file progress bars, status indicators, and file size formatting. Accepts `image/jpeg`, `image/png`, `image/webp`.
 - **API routes**: `app/api/auth/photo/route.ts` and `app/api/auth/photo/select/route.ts` handle photo CRUD.
 
@@ -184,7 +185,7 @@ pnpm run lint
 - Functional API routes in `app/api/`
 
 ## Important Dependencies
-- `jwt-decode` — token parsing
+- `jwt-decode` (^4.0.0) — token parsing
 - `yet-another-react-lightbox` — image gallery
 - `uuid` — UUID generation
 - `camelcase-keys` — object key transformation
