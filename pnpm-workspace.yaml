@@ -5,6 +5,8 @@ packages:
   # if required, exclude directories
   - '!**/test/**'
   - '!**/.next/**'
+minimumReleaseAgeExclude:
+  - baseline-browser-mapping
 allowBuilds:
   '@parcel/watcher': true
   esbuild: true
